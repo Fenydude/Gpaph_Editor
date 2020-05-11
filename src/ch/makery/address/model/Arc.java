@@ -3,6 +3,7 @@ package ch.makery.address.model;
 
 import javafx.beans.InvalidationListener;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 import javafx.scene.shape.Line;
 import javafx.scene.shape.StrokeLineCap;
 
@@ -221,10 +222,20 @@ public class Arc extends Line implements Serializable {
     public Arc(double x1, double y1, double x2, double y2) {
 
         super(x1, y1, x2, y2);
+        this.setStrokeWidth(2);
         this.setStrokeLineCap(StrokeLineCap.ROUND);
 
     }
 
+    public void setColor(Color color) {
+        this.setStroke(color);
+        this.line1.setStroke(color);
+        this.line2.setStroke(color);
+        if (this.line3 != null && this.line4 != null) {
+            line3.setStroke(color);
+            line4.setStroke(color);
+        }
+    }
 
     public Vertex getBegin() {
 

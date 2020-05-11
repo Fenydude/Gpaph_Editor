@@ -13,14 +13,16 @@ import java.io.IOException;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 public class FileWorkController {
 
 
     //метод для сохранения объектов
-    public void saveNode(List<Vertex> vertecies, List<Arc> arcs) throws IOException {
-        List<DAT> dBList1 = new ArrayList<>();
+    public void saveNode(List<Vertex> vertecies, Set<Arc> arcs) throws IOException {
+        Set<DAT> dBList1 = new HashSet<>();
         for (Vertex vertex : vertecies) {
             dBList1.add(new DAT(vertex.getVertexTransX(), vertex.getVertexTransY()));
         }
@@ -40,11 +42,11 @@ public class FileWorkController {
     public Graph openNode(Tab tab, Graph graph) throws IOException, ClassNotFoundException {
         Pane root = new Pane();
         tab.setContent(root);
-        ArrayList<Vertex> dragList1 = new ArrayList<>();
-        ArrayList<Arc> dragList2 = new ArrayList<>();
-        List<DAT> datList;
+        Set<Vertex> dragList1 = new HashSet<>();
+        Set<Arc> dragList2 = new HashSet<>();
+        Set<DAT> datList;
         try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Node.dat"))) {
-            datList = (ArrayList<DAT>) ois.readObject();
+            datList = (HashSet<DAT>) ois.readObject();
         }
         for (DAT dat : datList) {
             Vertex vertex = new Vertex(dat.getNewTranslateX(), dat.getNewTranslateY(), root);
@@ -52,27 +54,35 @@ public class FileWorkController {
             Arc arc = new Arc(dat.getBeginX(), dat.getBeginY(), dat.getEndX(), dat.getEndY());
             dragList2.add(arc);
             arc.setArrow(root);
-            arc.updateArrow();
-
-
         }
         for (Vertex vertex : dragList1) {
             graph.getVertices().add(vertex);
-            graph.addVertex();
-            for (Arc arc : dragList2) {
 
+            for (Arc arc : dragList2) {
                 if (vertex.getCircle().getCenterX() == arc.getStartX() && vertex.getCircle().getCenterY() == arc.getStartY()) {
                     vertex.addArc(arc);
                     arc.setBegin(vertex);
-
                 } else if (vertex.getCircle().getCenterX() == arc.getEndX() && vertex.getCircle().getCenterY() == arc.getEndY()) {
                     arc.setEnd(vertex);
                     vertex.addArc(arc);
                 }
-
             }
-
         }
+        dragList1.removeIf(e -> {
+            for (Arc arc : e.getArcs()) {
+                return arc.getEnd() == null;
+            }
+            return false;
+        });
+        graph.getVertices().removeIf(e -> {
+            for (Arc arc : e.getArcs()) {
+                return arc.getEnd() == null;
+            }
+            return false;
+        });
+        dragList2.removeIf(e -> e.getEnd() == null);
+        dragList2.forEach(Arc::updateArrow);
+
         root.getChildren().removeAll(datList);
         root.getChildren().addAll(dragList1);
         root.getChildren().addAll(dragList2);

@@ -122,33 +122,7 @@ public class Graph extends Group implements Serializable {
 
     }
 
-    public void fileCreateAndAdd(String name) {
-        try {
-            FileWriter writer = new FileWriter(name + ".txt");
 
-            writer.write(String.valueOf(matrixAdjancy));
-            writer.flush();
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-    }
-
-
-    public void readFromFile() {
-        try (FileReader reader = new FileReader("input.txt")) {
-            // читаем посимвольно
-            int c;
-            while ((c = reader.read()) != -1) {
-                if (Character.getNumericValue((char) c) != -1)
-                    System.out.print(Character.getNumericValue((char) c));
-
-
-            }
-        } catch (IOException ex) {
-
-            System.out.println(ex.getMessage());
-        }
-    }
 
     public void setMatrixAdjancy(ArrayList<ArrayList<Integer>> matrixAdjancy) {
         this.matrixAdjancy = matrixAdjancy;

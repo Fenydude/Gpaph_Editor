@@ -51,6 +51,10 @@
             <font>
                 <Font size="7.0" />
             </font>
+        </Button> <Button fx:id="colorChange" layoutX="552.0" layoutY="200.0" mnemonicParsing="false" onAction="#colorChange" prefHeight="36.0" prefWidth="36.0" text="color">
+            <font>
+                <Font size="7.0" />
+            </font>
         </Button>
         <TabPane fx:id="tabPane" layoutY="27.0" prefHeight="374.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="27.0">
             <tabs>
