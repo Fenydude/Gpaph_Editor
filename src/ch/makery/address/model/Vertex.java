@@ -27,7 +27,7 @@ public class Vertex extends Group implements Serializable {
         setVertexTransX(vertexTransX);
         setVertexTransY(vertexTransY);
         circle.setCenterX(getVertexTransX());
-
+        circle.setStrokeWidth(2);
         circle.setCenterY(getVertexTransY());
 
         circle.setRadius(CIRCLE_RADIUS);

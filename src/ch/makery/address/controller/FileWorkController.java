@@ -3,9 +3,11 @@ package ch.makery.address.controller;
 import ch.makery.address.model.Arc;
 import ch.makery.address.model.Graph;
 import ch.makery.address.model.Vertex;
+import ch.makery.address.util.ColorUtil;
 import ch.makery.address.util.DAT;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.Pane;
+import javafx.scene.paint.Color;
 
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
@@ -30,7 +32,8 @@ public class FileWorkController {
             dBList1.add(new DAT(arc.getBegin().getVertexTransX(),
                     arc.getBegin().getVertexTransY(),
                     arc.getEnd().getVertexTransX(),
-                    arc.getEnd().getVertexTransY()));
+                    arc.getEnd().getVertexTransY(),
+                    ColorUtil.fxToAwt((Color) arc.getStroke())));
         }
         try (ObjectOutputStream ous = new ObjectOutputStream(new FileOutputStream("Node.dat"))) {
             ous.writeObject(dBList1);//сохраняем объект с данными о Node
@@ -49,21 +52,26 @@ public class FileWorkController {
             datList = (HashSet<DAT>) ois.readObject();
         }
         for (DAT dat : datList) {
-            Vertex vertex = new Vertex(dat.getNewTranslateX(), dat.getNewTranslateY(), root);
-            dragList1.add(vertex);
-            Arc arc = new Arc(dat.getBeginX(), dat.getBeginY(), dat.getEndX(), dat.getEndY());
-            dragList2.add(arc);
-            arc.setArrow(root);
+            if (dat.getNewTranslateX() != 0) {
+                Vertex vertex = new Vertex(dat.getNewTranslateX(), dat.getNewTranslateY(), root);
+                dragList1.add(vertex);
+            } else if (dat.getBeginX() != 0) {
+                Arc arc = new Arc(dat.getBeginX(), dat.getBeginY(), dat.getEndX(), dat.getEndY());
+
+                arc.setColor(ColorUtil.awtToFx(dat.getColor()));
+                dragList2.add(arc);
+            }
         }
         for (Vertex vertex : dragList1) {
             graph.getVertices().add(vertex);
-
+            graph.addVertex();
             for (Arc arc : dragList2) {
                 if (vertex.getCircle().getCenterX() == arc.getStartX() && vertex.getCircle().getCenterY() == arc.getStartY()) {
                     vertex.addArc(arc);
                     arc.setBegin(vertex);
                 } else if (vertex.getCircle().getCenterX() == arc.getEndX() && vertex.getCircle().getCenterY() == arc.getEndY()) {
                     arc.setEnd(vertex);
+                    arc.setArrow(root);
                     vertex.addArc(arc);
                 }
             }

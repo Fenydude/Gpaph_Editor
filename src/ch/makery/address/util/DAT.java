@@ -1,5 +1,8 @@
 package ch.makery.address.util;
 
+
+
+import java.awt.*;
 import java.io.Serializable;
 
 public class DAT implements Serializable {
@@ -13,19 +16,24 @@ public class DAT implements Serializable {
     private double beginY;
     private double endX;
     private double endY;
-
+    private Color color;
 
     public DAT(double newTranslateX, double newTranslateY) {
-        this.newTranslateX=newTranslateX;
-        this.newTranslateY=newTranslateY;
+        this.newTranslateX = newTranslateX;
+        this.newTranslateY = newTranslateY;
 
     }
 
-    public DAT(double beginX, double beginY, double endX, double endY) {
+    public DAT(double beginX, double beginY, double endX, double endY,Color color) {
         this.beginX = beginX;
         this.beginY = beginY;
         this.endX = endX;
         this.endY = endY;
+        this.color=color;
+    }
+
+    public Color getColor() {
+        return color;
     }
 
     public double getBeginX() {
