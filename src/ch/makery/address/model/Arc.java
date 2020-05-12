@@ -26,6 +26,11 @@ public class Arc extends Line implements Serializable {
     private Line line2 = new Line();
     private Line line3;
     private Line line4;
+private boolean isUnoriented;
+
+    public void setUnoriented(boolean unoriented) {
+        isUnoriented = unoriented;
+    }
 
     private List<Line> lineList = new ArrayList<>();
 
@@ -79,54 +84,6 @@ public class Arc extends Line implements Serializable {
             updater.invalidated(null);
         }
     };
-
-    public int getWeight() {
-        return weight;
-    }
-
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
-
-    public Line getLine1() {
-        return line1;
-    }
-
-    public void setLine1(Line line1) {
-        this.line1 = line1;
-    }
-
-    public Line getLine2() {
-        return line2;
-    }
-
-    public void setLine2(Line line2) {
-        this.line2 = line2;
-    }
-
-    public Line getLine3() {
-        return line3;
-    }
-
-    public void setLine3(Line line3) {
-        this.line3 = line3;
-    }
-
-    public Line getLine4() {
-        return line4;
-    }
-
-    public void setLine4(Line line4) {
-        this.line4 = line4;
-    }
-
-    public List<Line> getLineList() {
-        return lineList;
-    }
-
-    public void setLineList(List<Line> lineList) {
-        this.lineList = lineList;
-    }
 
     public List<Line> getArrow() {
         return lineList;

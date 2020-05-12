@@ -54,7 +54,7 @@ import javafx.stage.Stage;
 public class MyControler implements Initializable {
 
 
-    private Translate translate = new Translate();
+    private  Translate translate = new Translate();
 
     public int countCircle = 0;
 
@@ -77,7 +77,7 @@ public class MyControler implements Initializable {
 
     @FXML
 
-    private Button penCircle = new Button();
+    private  Button penCircle = new Button();
 
     @FXML
     private MenuItem save;
@@ -89,46 +89,46 @@ public class MyControler implements Initializable {
 
     @FXML
 
-    private MenuItem showMultipleArcBut = new MenuItem();
+    private  MenuItem showMultipleArcBut = new MenuItem();
 
 
     @FXML
 
-    private MenuItem newPane = new MenuItem();
+    private  MenuItem newPane = new MenuItem();
 
 
     @FXML
 
-    private Button penLine = new Button();
+    private  Button penLine = new Button();
 
 
     @FXML
 
-    private Button transform = new Button();
+    private  Button transform = new Button();
 
 
     @FXML
 
-    private Button unorientedArc = new Button();
+    private  Button unorientedArc = new Button();
 
 
     @FXML
 
-    private TabPane tabPane = new TabPane();
+    private  TabPane tabPane = new TabPane();
 
 
     @FXML
 
-    private Tab tab = new Tab();
+    private  Tab tab = new Tab();
     @FXML
 
     public Button colorChange = new Button();
-    private List<Graph> graphs = new ArrayList<>();
+    private  List<Graph> graphs = new ArrayList<>();
 
-    private List<Pane> panes = new ArrayList<>();
+    private  List<Pane> panes = new ArrayList<>();
 
     private ArrayList<Circle> circleArray = new ArrayList<>();
-    private List<Button> buttons = new ArrayList<>();
+    private  List<Button> buttons = new ArrayList<>();
 
     @Override
 
@@ -138,14 +138,6 @@ public class MyControler implements Initializable {
         buttons.add(penCircle);
         buttons.add(unorientedArc);
         buttons.add(penLine);
-        InputStream input =
-
-                getClass().getResourceAsStream("/ch/makery/address/view/circle.png");
-
-
-        Image image = new Image(input);
-
-        ImageView imageView = new ImageView(image);
 
 
         pane = new Pane();
@@ -153,19 +145,6 @@ public class MyControler implements Initializable {
         graph = new Graph(tabPane.getTabs().get(0));
         graphs.add(graph);
         panes.add(pane);
-
-
-        //Image for button
-
-       /* penCircle.graphicProperty().setValue(imageView);
-
-        penLine.graphicProperty().setValue(imageView);
-
-        transform.graphicProperty().setValue(imageView);
-
-        unorientedArc.graphicProperty().setValue(imageView);*/
-
-        // TODO (don't really need to do anything here).
 
 
         System.out.println("Hi");
@@ -193,7 +172,7 @@ public class MyControler implements Initializable {
 
     }
 
-    private FileWorkController fileWorkController = new FileWorkController();
+    private  FileWorkController fileWorkController = new FileWorkController();
 
     public void saveAction(ActionEvent actionEvent) {
         for (Graph graph : graphs) {
@@ -204,8 +183,6 @@ public class MyControler implements Initializable {
                         arcs.addAll(vertex.getArcs());
 
                     }
-
-
                     fileWorkController.saveNode(graph.getVertices(), arcs);
                 } catch (IOException e) {
                     e.printStackTrace();
@@ -216,6 +193,7 @@ public class MyControler implements Initializable {
     }
 
     public void saveAsAction(ActionEvent actionEvent) {
+
     }
 
     public void openAction(ActionEvent actionEvent) {
@@ -257,12 +235,6 @@ public class MyControler implements Initializable {
         for (Button button : buttons) {
             button.setDisable(button.getText().equals("Circle"));
         }
-       /* penCircle.setDisable(true);
-
-        penLine.setDisable(false);
-
-        transform.setDisable(false);
-        unorientedArc.setDisable(false);*/
 
         for (Tab tab1 : tabPane.getTabs()) {
 
@@ -285,10 +257,11 @@ public class MyControler implements Initializable {
     public void colorChange(ActionEvent event) {
 
         for (Tab tab1 : tabPane.getTabs()) {
+            MyApplication.scene.setCursor(Cursor.DEFAULT);
             for (Button button : buttons) {
                 button.setDisable(button.getText().equals("color"));
             }
-            tab1.getContent().addEventFilter(MouseEvent.MOUSE_RELEASED, arcColorChange);
+            tab1.getContent().addEventFilter(MouseEvent.MOUSE_RELEASED, arcAndCircleColorChange);
 
 
         }
@@ -303,14 +276,6 @@ public class MyControler implements Initializable {
         for (Button button : buttons) {
             button.setDisable(button.getText().equals("Arc"));
         }
-
-       /* penCircle.setDisable(false);
-
-        penLine.setDisable(true);
-
-        transform.setDisable(false);
-
-        unorientedArc.setDisable(false);*/
 
         for (Circle circle : circleArray) {
 
@@ -353,12 +318,8 @@ public class MyControler implements Initializable {
                         }
                     }
                 }
-
             }
-
-
         }
-
     };
 
 
@@ -368,19 +329,7 @@ public class MyControler implements Initializable {
         for (Button button : buttons) {
             button.setDisable(button.getText().equals("Transform"));
         }
-
-       /* penCircle.setDisable(false);
-
-
-        penLine.setDisable(false);
-
-        transform.setDisable(true);
-
-        unorientedArc.setDisable(false);*/
-
         thread.run();
-
-
     }
 
 
@@ -390,13 +339,6 @@ public class MyControler implements Initializable {
             button.setDisable(button.getText().equals("BiArc"));
         }
 
-       /* penCircle.setDisable(false);
-
-        penLine.setDisable(false);
-
-        transform.setDisable(false);
-
-        unorientedArc.setDisable(true);*/
 
         for (Circle circle : circleArray) {
 
@@ -454,8 +396,6 @@ public class MyControler implements Initializable {
                         graph.addVertex();
 
                         // panes.get(1).getChildren().add(circle);
-
-
                     }
                 }
 
@@ -464,9 +404,8 @@ public class MyControler implements Initializable {
         }
 
     };
-    EventHandler<MouseEvent> arcColorChange = event -> {
+    EventHandler<MouseEvent> arcAndCircleColorChange = event -> {
         if (colorChange.isDisable()) {
-            MyApplication.scene.setCursor(Cursor.DEFAULT);
             for (Graph graph : graphs) {
                 if (graph.getTab().isSelected()) {
                     for (Vertex vertex : graph.getVertices()) {
@@ -476,10 +415,22 @@ public class MyControler implements Initializable {
                                 colorPicker.setValue(Color.RED);
                                 Pane pane = (Pane) graph.getTab().getContent();
                                 pane.getChildren().add(colorPicker);
-                                colorPicker.setOnAction(event11 -> arc.setColor(colorPicker.getValue()));
-
+                                colorPicker.setOnAction(event11 -> {
+                                    arc.setColor(colorPicker.getValue());
+                                    pane.getChildren().remove(colorPicker);
+                                });
                             });
                         }
+                        vertex.getCircle().setOnMousePressed(event1 -> {
+                            final ColorPicker colorPicker = new ColorPicker();
+                            colorPicker.setValue(Color.RED);
+                            Pane pane = (Pane) graph.getTab().getContent();
+                            pane.getChildren().add(colorPicker);
+                            colorPicker.setOnAction(event11 -> {
+                                vertex.getCircle().setFill(colorPicker.getValue());
+                                pane.getChildren().remove(colorPicker);
+                            });
+                        });
                     }
                 }
             }
@@ -499,20 +450,11 @@ public class MyControler implements Initializable {
                     if (transform.isDisable()) {
                         for (Graph graph : graphs) {
                             if (graph.getTab().isSelected()) {
-
-                                Circle circle = (Circle) t.getSource();
-
-
                                 for (Vertex vertex : graph.getVertices()) {
-
                                     vertex.getCircle().setFill(Color.WHITE);
-
-                                    if (vertex.getCircle() == circle) {
-
-                                        vertex.getCircle().setFill(Color.GREEN);
-
+                                    vertex.getCircle().setOnMousePressed(event -> {
                                         vertex.getCircle().getScene().setOnKeyPressed(e -> {
-
+                                            vertex.getCircle().setStroke(Color.YELLOW);
                                             if (e.getCode() == KeyCode.I) {
 
                                                 Label secondLabel = new Label("Enter name vertex");
@@ -571,10 +513,7 @@ public class MyControler implements Initializable {
                                                     }
 
                                                 });
-
-
                                                 newWindow.show();
-
                                             } else if (e.getCode() == KeyCode.DELETE) {
                                                 Pane pane = (Pane) graph.getTab().getContent();
                                                 pane.getChildren().remove(vertex.getCircle());
@@ -589,7 +528,8 @@ public class MyControler implements Initializable {
 
                                         });
 
-                                    }
+                                    });
+
 
                                 }
 
@@ -663,20 +603,13 @@ public class MyControler implements Initializable {
 
 
     EventHandler<MouseEvent> lineDrawEvent = new EventHandler<MouseEvent>() {
-
         Arc arc = new Arc(0, 0, 0, 0);
 
-
         @Override
-
         public void handle(MouseEvent t) {
-
             if (penLine.isDisable() || unorientedArc.isDisable()) {
-
                 for (Graph graph : graphs) {
-
                     if (graph.getTab().isSelected()) {
-
 
                         if (x1 == 0 && y1 == 0) {
 
@@ -697,13 +630,9 @@ public class MyControler implements Initializable {
                                     arc.setStartY(vertex.getCircle().getCenterY());
 
                                     vertex.addArc(arc);
-
                                 }
-
                             }
-
                         } else {
-
                             if (x2 == 0 && y2 == 0) {
 
                                 x2 = t.getX();

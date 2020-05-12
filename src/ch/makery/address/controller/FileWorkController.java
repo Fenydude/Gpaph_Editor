@@ -26,14 +26,22 @@ public class FileWorkController {
     public void saveNode(List<Vertex> vertecies, Set<Arc> arcs) throws IOException {
         Set<DAT> dBList1 = new HashSet<>();
         for (Vertex vertex : vertecies) {
-            dBList1.add(new DAT(vertex.getVertexTransX(), vertex.getVertexTransY()));
+            dBList1.add(new DAT(
+                    vertex.getVertexTransX(),
+                    vertex.getVertexTransY(),
+                    vertex.getVertexId(),
+                    ColorUtil.fxToAwt((Color) vertex.getCircle().getFill())
+            ));
         }
         for (Arc arc : arcs) {
-            dBList1.add(new DAT(arc.getBegin().getVertexTransX(),
+            dBList1.add(new DAT(
+                    arc.getBegin().getVertexTransX(),
                     arc.getBegin().getVertexTransY(),
                     arc.getEnd().getVertexTransX(),
                     arc.getEnd().getVertexTransY(),
-                    ColorUtil.fxToAwt((Color) arc.getStroke())));
+                    ColorUtil.fxToAwt((Color) arc.getStroke()),
+                    arc.isUnoriented()
+            ));
         }
         try (ObjectOutputStream ous = new ObjectOutputStream(new FileOutputStream("Node.dat"))) {
             ous.writeObject(dBList1);//сохраняем объект с данными о Node
@@ -54,10 +62,12 @@ public class FileWorkController {
         for (DAT dat : datList) {
             if (dat.getNewTranslateX() != 0) {
                 Vertex vertex = new Vertex(dat.getNewTranslateX(), dat.getNewTranslateY(), root);
+                vertex.setVertexId(dat.getId());
+                vertex.getCircle().setFill(ColorUtil.awtToFx(dat.getColor()));
                 dragList1.add(vertex);
             } else if (dat.getBeginX() != 0) {
                 Arc arc = new Arc(dat.getBeginX(), dat.getBeginY(), dat.getEndX(), dat.getEndY());
-
+                arc.setUnoriented(dat.isUnoriented());
                 arc.setColor(ColorUtil.awtToFx(dat.getColor()));
                 dragList2.add(arc);
             }
@@ -71,7 +81,7 @@ public class FileWorkController {
                     arc.setBegin(vertex);
                 } else if (vertex.getCircle().getCenterX() == arc.getEndX() && vertex.getCircle().getCenterY() == arc.getEndY()) {
                     arc.setEnd(vertex);
-                    arc.setArrow(root);
+
                     vertex.addArc(arc);
                 }
             }
@@ -82,6 +92,7 @@ public class FileWorkController {
             }
             return false;
         });
+
         graph.getVertices().removeIf(e -> {
             for (Arc arc : e.getArcs()) {
                 return arc.getEnd() == null;
@@ -89,8 +100,17 @@ public class FileWorkController {
             return false;
         });
         dragList2.removeIf(e -> e.getEnd() == null);
-        dragList2.forEach(Arc::updateArrow);
+        dragList2.forEach(graph::addArc);
 
+        dragList2.forEach(arc -> {
+            if (arc.isUnoriented()) {
+                arc.setUnorientedArrow(root);
+                arc.updateUnorientedArrow();
+            }
+            arc.setArrow(root);
+            arc.updateArrow();
+
+        });
         root.getChildren().removeAll(datList);
         root.getChildren().addAll(dragList1);
         root.getChildren().addAll(dragList2);
