@@ -54,7 +54,7 @@ import javafx.stage.Stage;
 public class MyControler implements Initializable {
 
 
-    private  Translate translate = new Translate();
+    private Translate translate = new Translate();
 
     public int countCircle = 0;
 
@@ -77,7 +77,7 @@ public class MyControler implements Initializable {
 
     @FXML
 
-    private  Button penCircle = new Button();
+    private Button penCircle = new Button();
 
     @FXML
     private MenuItem save;
@@ -89,46 +89,46 @@ public class MyControler implements Initializable {
 
     @FXML
 
-    private  MenuItem showMultipleArcBut = new MenuItem();
+    private MenuItem showMultipleArcBut = new MenuItem();
 
 
     @FXML
 
-    private  MenuItem newPane = new MenuItem();
+    private MenuItem newPane = new MenuItem();
 
 
     @FXML
 
-    private  Button penLine = new Button();
+    private Button penLine = new Button();
 
 
     @FXML
 
-    private  Button transform = new Button();
+    private Button transform = new Button();
 
 
     @FXML
 
-    private  Button unorientedArc = new Button();
+    private Button unorientedArc = new Button();
 
 
     @FXML
 
-    private  TabPane tabPane = new TabPane();
+    private TabPane tabPane = new TabPane();
 
 
     @FXML
 
-    private  Tab tab = new Tab();
+    private Tab tab = new Tab();
     @FXML
 
     public Button colorChange = new Button();
-    private  List<Graph> graphs = new ArrayList<>();
+    private List<Graph> graphs = new ArrayList<>();
 
-    private  List<Pane> panes = new ArrayList<>();
+    private List<Pane> panes = new ArrayList<>();
 
     private ArrayList<Circle> circleArray = new ArrayList<>();
-    private  List<Button> buttons = new ArrayList<>();
+    private List<Button> buttons = new ArrayList<>();
 
     @Override
 
@@ -172,7 +172,7 @@ public class MyControler implements Initializable {
 
     }
 
-    private  FileWorkController fileWorkController = new FileWorkController();
+    private FileWorkController fileWorkController = new FileWorkController();
 
     public void saveAction(ActionEvent actionEvent) {
         for (Graph graph : graphs) {
@@ -396,6 +396,8 @@ public class MyControler implements Initializable {
                         graph.addVertex();
 
                         // panes.get(1).getChildren().add(circle);
+
+
                     }
                 }
 
@@ -450,11 +452,15 @@ public class MyControler implements Initializable {
                     if (transform.isDisable()) {
                         for (Graph graph : graphs) {
                             if (graph.getTab().isSelected()) {
+                                Circle circle = (Circle) t.getSource();
+
                                 for (Vertex vertex : graph.getVertices()) {
                                     vertex.getCircle().setFill(Color.WHITE);
-                                    vertex.getCircle().setOnMousePressed(event -> {
+                                    if (vertex.getCircle() == circle) {
+                                        vertex.getCircle().setFill(Color.GREEN);
+
+                                        vertex.getCircle().setStroke(Color.YELLOW);
                                         vertex.getCircle().getScene().setOnKeyPressed(e -> {
-                                            vertex.getCircle().setStroke(Color.YELLOW);
                                             if (e.getCode() == KeyCode.I) {
 
                                                 Label secondLabel = new Label("Enter name vertex");
@@ -528,7 +534,7 @@ public class MyControler implements Initializable {
 
                                         });
 
-                                    });
+                                    }
 
 
                                 }
@@ -564,6 +570,10 @@ public class MyControler implements Initializable {
 
 
                             for (Vertex vertex : graph.getVertices()) {
+                                if (vertex.getCircle() == circle) {
+                                    vertex.setVertexTransX(t.getX());
+                                    vertex.setVertexTransY(t.getY());
+                                }
 
                                 vertex.getText().setX(vertex.getCircle().getCenterX() + 10);
 

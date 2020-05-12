@@ -81,7 +81,13 @@ public class FileWorkController {
                     arc.setBegin(vertex);
                 } else if (vertex.getCircle().getCenterX() == arc.getEndX() && vertex.getCircle().getCenterY() == arc.getEndY()) {
                     arc.setEnd(vertex);
-
+                    if (!arc.isUnoriented()) {
+                        arc.setUnorientedArrow(root);
+                        arc.updateUnorientedArrow();
+                    } else {
+                        arc.setArrow(root);
+                    }
+                    arc.updateArrow();
                     vertex.addArc(arc);
                 }
             }
@@ -102,15 +108,6 @@ public class FileWorkController {
         dragList2.removeIf(e -> e.getEnd() == null);
         dragList2.forEach(graph::addArc);
 
-        dragList2.forEach(arc -> {
-            if (arc.isUnoriented()) {
-                arc.setUnorientedArrow(root);
-                arc.updateUnorientedArrow();
-            }
-            arc.setArrow(root);
-            arc.updateArrow();
-
-        });
         root.getChildren().removeAll(datList);
         root.getChildren().addAll(dragList1);
         root.getChildren().addAll(dragList2);
