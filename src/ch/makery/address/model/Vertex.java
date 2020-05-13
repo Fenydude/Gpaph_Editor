@@ -32,7 +32,7 @@ public class Vertex extends Group implements Serializable {
 
         circle.setRadius(CIRCLE_RADIUS);
 
-        circle.setStroke(Color.GREEN);
+        circle.setStroke(Color.BLACK);
 
         circle.setPickOnBounds(true);
         circle.setFill(Color.WHITE);
