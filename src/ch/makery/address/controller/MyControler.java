@@ -152,9 +152,6 @@ public class MyControler implements Initializable {
         panes.add(pane);
 
 
-        System.out.println("Hi");
-
-
     }
 
 
@@ -336,7 +333,7 @@ public class MyControler implements Initializable {
 
                         for (Arc arc : vertex.getArcs()) {
                             arc.setOnMouseDragged(transLine);
-
+                            arc.setOnMousePressed(arcOnMousePressedEventHandler);
                         }
                     }
                 }
@@ -543,13 +540,15 @@ public class MyControler implements Initializable {
 
                                                 });
                                                 newWindow.show();
-                                            } else if (e.getCode() == KeyCode.DELETE) {
+                                            }
+                                            if (e.getCode() == KeyCode.DELETE) {
                                                 Pane pane = (Pane) graph.getTab().getContent();
 
                                                 pane.getChildren().remove(vertex.getCircle());
                                                 for (Arc arc : vertex.getArcs()) {
                                                     graph.removeArcFromMatrix(arc);
                                                     pane.getChildren().removeAll(arc.getArrow());
+
                                                 }
                                                 pane.getChildren().removeAll(vertex.getArcs());
                                                 graph.removeVertex(vertex);
@@ -569,6 +568,39 @@ public class MyControler implements Initializable {
 
             };
 
+    EventHandler<MouseEvent> arcOnMousePressedEventHandler =
+
+            new EventHandler<MouseEvent>() {
+
+
+                @Override
+
+                public void handle(MouseEvent t) {
+
+                    if (transform.isDisable()) {
+                        for (Graph graph : graphs) {
+                            if (graph.getTab().isSelected()) {
+                                for (Vertex vertex : graph.getVertices()) {
+
+                                    for (Arc arc : vertex.getArcs()) {
+                                        arc.setOnMouseReleased(event1 -> {
+                                            arc.setStroke(Color.DARKORANGE);
+
+                                        });
+
+                                        arc.setOnKeyPressed(e -> {
+                                            if (e.getCode() == KeyCode.DELETE) {
+                                                arc.getBegin().getArcs().remove(arc);
+                                                pane.getChildren().remove(arc);
+                                            }
+                                        });
+                                    }
+                                }
+                            }
+                        }
+                    }
+                }
+            };
 
     EventHandler<MouseEvent> circleOnMouseDraggedEventHandler =
 
@@ -743,13 +775,7 @@ public class MyControler implements Initializable {
 
 
                         Arc arc = (Arc) t.getSource();
-                        /*arc.setOnKeyPressed(e -> {
-                            if (e.getCode() == KeyCode.DELETE) {
-                                arc.getBegin().getArcs().remove(arc);
-                                arc.getEnd().getArcs().remove(arc);
-                                pane.getChildren().remove(arc);
-                            }
-                        });*/
+
                         if (Math.abs(t.getX() - arc.getStartX()) < 25 && Math.abs(t.getY() - arc.getStartY()) < 25) {
 
                             arc.setStartX(t.getX());

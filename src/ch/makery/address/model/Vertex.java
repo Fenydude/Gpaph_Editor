@@ -95,6 +95,8 @@ public class Vertex extends Group implements Serializable {
         return arcs;
     }
 
+
+
     public Circle getCircle() {
         return circle;
     }
