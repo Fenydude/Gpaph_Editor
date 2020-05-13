@@ -218,7 +218,7 @@ public class MyControler implements Initializable {
                         arcs.addAll(vertex.getArcs());
 
                     }
-                    fileWorkController.saveNode(graph.getVertices(), arcs);
+                    fileWorkController.saveNode(graph.getVertices(), arcs,graph.getTab().getText());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }

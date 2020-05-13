@@ -8,12 +8,10 @@ import ch.makery.address.util.DAT;
 import javafx.scene.control.Tab;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
+import javafx.stage.FileChooser;
+import javafx.stage.Stage;
 
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.ObjectInputStream;
-import java.io.ObjectOutputStream;
+import java.io.*;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -23,7 +21,7 @@ public class FileWorkController {
 
 
     //метод для сохранения объектов
-    public void saveNode(List<Vertex> vertecies, Set<Arc> arcs) throws IOException {
+    public void saveNode(List<Vertex> vertecies, Set<Arc> arcs, String fileName) throws IOException {
         Set<DAT> dBList1 = new HashSet<>();
         for (Vertex vertex : vertecies) {
             dBList1.add(new DAT(
@@ -43,7 +41,7 @@ public class FileWorkController {
                     arc.isUnoriented()
             ));
         }
-        try (ObjectOutputStream ous = new ObjectOutputStream(new FileOutputStream("Node.dat"))) {
+        try (ObjectOutputStream ous = new ObjectOutputStream(new FileOutputStream(fileName + ".dat"))) {
             ous.writeObject(dBList1);//сохраняем объект с данными о Node
 
         }
@@ -51,12 +49,14 @@ public class FileWorkController {
 
     //метод для восстановления объектов
     public Graph openNode(Tab tab, Graph graph) throws IOException, ClassNotFoundException {
+        final FileChooser fileChooser = new FileChooser();
         Pane root = new Pane();
         tab.setContent(root);
         Set<Vertex> dragList1 = new HashSet<>();
         Set<Arc> dragList2 = new HashSet<>();
         Set<DAT> datList;
-        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream("Node.dat"))) {
+        File file = fileChooser.showOpenDialog(new Stage());
+        try (ObjectInputStream ois = new ObjectInputStream(new FileInputStream(file))) {
             datList = (HashSet<DAT>) ois.readObject();
         }
         for (DAT dat : datList) {
