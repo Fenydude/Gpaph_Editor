@@ -144,6 +144,28 @@ public class MyControler implements Initializable {
     private ArrayList<Circle> circleArray = new ArrayList<>();
     private List<Button> buttons = new ArrayList<>();
 
+    private void setGraphName(Tab tab) {
+        Label secondLabel = new Label("Enter graph name");
+        TextField textField = new TextField("Enter name");
+        textField.setMinWidth(120);
+        Button button1 = new Button("Button with Text");
+        VBox secondaryLayout = new VBox();
+        secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
+        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Enter name");
+        newWindow.setScene(secondScene);
+        newWindow.initModality(Modality.WINDOW_MODAL);
+        newWindow.initOwner(stage);
+        button1.setOnAction(actionEvent -> {
+            tab.setText(textField.getText());
+            newWindow.close();
+
+        });
+        newWindow.show();
+    }
+
+
     @Override
 
     public void initialize(URL location, ResourceBundle resources) {
@@ -156,21 +178,19 @@ public class MyControler implements Initializable {
 
 
         pane = new Pane();
+        setGraphName(tabPane.getTabs().get(0));
         tabPane.getTabs().get(0).setContent(pane);
         graph = new Graph(tabPane.getTabs().get(0));
         graphs.add(graph);
         panes.add(pane);
 
 
-        System.out.println("Hi");
-
-
     }
 
 
     public void newPaneAction(ActionEvent event) {
-
-        Tab tab1 = new Tab("New File");
+        Tab tab1 = new Tab();
+        setGraphName(tab1);
 
         Label label = new Label("This is newTab ");
 
