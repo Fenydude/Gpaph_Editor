@@ -41,6 +41,7 @@ import javafx.scene.layout.VBox;
 
 import javafx.scene.paint.Color;
 
+import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 
 import javafx.scene.shape.Line;
@@ -116,6 +117,9 @@ public class MyControler implements Initializable {
 
     private TabPane tabPane = new TabPane();
 
+    @FXML
+
+    private Button loop = new Button();
 
     @FXML
 
@@ -138,6 +142,7 @@ public class MyControler implements Initializable {
         buttons.add(penCircle);
         buttons.add(unorientedArc);
         buttons.add(penLine);
+        buttons.add(loop);
 
 
         pane = new Pane();
@@ -267,6 +272,22 @@ public class MyControler implements Initializable {
         }
     }
 
+    public void loop(ActionEvent event) {
+
+        for (Tab tab1 : tabPane.getTabs()) {
+            MyApplication.scene.setCursor(Cursor.CROSSHAIR);
+            for (Button button : buttons) {
+                button.setDisable(button.getText().equals("loop"));
+            }
+            for (Graph graph : graphs) {
+                if (graph.getTab().isSelected()) {
+                    tab1.getContent().addEventFilter(MouseEvent.MOUSE_RELEASED, new LoopCreate(graph, loop, pane));
+                }
+            }
+
+        }
+    }
+
     //Ивент нажатия кнопки
 
     public void penLineAction(ActionEvent event) {
@@ -315,6 +336,7 @@ public class MyControler implements Initializable {
 
                         for (Arc arc : vertex.getArcs()) {
                             arc.setOnMouseDragged(transLine);
+
                         }
                     }
                 }
@@ -361,18 +383,13 @@ public class MyControler implements Initializable {
     EventHandler<MouseEvent> trans = new EventHandler<MouseEvent>() {
 
         @Override
-
         public void handle(MouseEvent mouseEvent) {
-
             Dragboard db = circleArray.get(0).startDragAndDrop(TransferMode.ANY);
-
         }
-
     };
 
 
     //Ивент рисования круга
-
     EventHandler<MouseEvent> drawCircle = new EventHandler<MouseEvent>() {
 
         @Override
@@ -411,8 +428,11 @@ public class MyControler implements Initializable {
             for (Graph graph : graphs) {
                 if (graph.getTab().isSelected()) {
                     for (Vertex vertex : graph.getVertices()) {
+
                         for (Arc arc : vertex.getArcs()) {
-                            arc.setOnMousePressed(event1 -> {
+
+                            arc.setOnMouseReleased(event1 -> {
+                                arc.setStroke(Color.DARKORANGE);
                                 final ColorPicker colorPicker = new ColorPicker();
                                 colorPicker.setValue(Color.RED);
                                 Pane pane = (Pane) graph.getTab().getContent();
@@ -421,9 +441,11 @@ public class MyControler implements Initializable {
                                     arc.setColor(colorPicker.getValue());
                                     pane.getChildren().remove(colorPicker);
                                 });
+
                             });
                         }
-                        vertex.getCircle().setOnMousePressed(event1 -> {
+                        vertex.getCircle().setOnMouseReleased(e -> {
+                            vertex.getCircle().setStroke(Color.DARKORANGE);
                             final ColorPicker colorPicker = new ColorPicker();
                             colorPicker.setValue(Color.RED);
                             Pane pane = (Pane) graph.getTab().getContent();
@@ -431,6 +453,7 @@ public class MyControler implements Initializable {
                             colorPicker.setOnAction(event11 -> {
                                 vertex.getCircle().setFill(colorPicker.getValue());
                                 pane.getChildren().remove(colorPicker);
+                                vertex.getCircle().setStroke(Color.BLACK);
                             });
                         });
                     }
@@ -455,11 +478,11 @@ public class MyControler implements Initializable {
                                 Circle circle = (Circle) t.getSource();
 
                                 for (Vertex vertex : graph.getVertices()) {
-                                    vertex.getCircle().setFill(Color.WHITE);
+                                    vertex.getCircle().setStroke(Color.BLACK);
                                     if (vertex.getCircle() == circle) {
-                                        vertex.getCircle().setFill(Color.GREEN);
+                                        //vertex.getCircle().setFill(Color.GREEN);
 
-                                        vertex.getCircle().setStroke(Color.YELLOW);
+                                        vertex.getCircle().setStroke(Color.DARKORANGE);
                                         vertex.getCircle().getScene().setOnKeyPressed(e -> {
                                             if (e.getCode() == KeyCode.I) {
 
@@ -522,6 +545,7 @@ public class MyControler implements Initializable {
                                                 newWindow.show();
                                             } else if (e.getCode() == KeyCode.DELETE) {
                                                 Pane pane = (Pane) graph.getTab().getContent();
+
                                                 pane.getChildren().remove(vertex.getCircle());
                                                 for (Arc arc : vertex.getArcs()) {
                                                     graph.removeArcFromMatrix(arc);
@@ -531,9 +555,7 @@ public class MyControler implements Initializable {
                                                 graph.removeVertex(vertex);
 
                                             }
-
                                         });
-
                                     }
 
 
@@ -642,64 +664,62 @@ public class MyControler implements Initializable {
                                     vertex.addArc(arc);
                                 }
                             }
-                        } else {
-                            if (x2 == 0 && y2 == 0) {
+                        } else if (x2 == 0 && y2 == 0) {
 
-                                x2 = t.getX();
+                            x2 = t.getX();
 
-                                y2 = t.getY();
+                            y2 = t.getY();
 
-                                Circle circle = (Circle) (t.getSource());
+                            Circle circle = (Circle) (t.getSource());
 
-                                for (Vertex vertex : graph.getVertices()) {
+                            for (Vertex vertex : graph.getVertices()) {
 
-                                    if (vertex.getCircle() == circle) {
+                                if (vertex.getCircle() == circle) {
 
-                                        vertex.addArc(arc);
+                                    vertex.addArc(arc);
 
-                                        arc.setEnd(vertex);
+                                    arc.setEnd(vertex);
 
-                                        arc.setEndX(vertex.getCircle().getCenterX());
+                                    arc.setEndX(vertex.getCircle().getCenterX());
 
-                                        arc.setEndY(vertex.getCircle().getCenterY());
-
-
-                                        vertex.getArcs().add(arc);
+                                    arc.setEndY(vertex.getCircle().getCenterY());
 
 
-                                        Pane pane = (Pane) graph.getTab().getContent();
-                                        pane.getChildren().add(arc);
-                                        if (penLine.isDisable()) {
-                                            arc.setArrow(pane);
-                                        } else if (unorientedArc.isDisable()) {
-                                            arc.setUnorientedArrow(pane);
-                                            arc.updateUnorientedArrow();
-                                        }
+                                    vertex.getArcs().add(arc);
 
 
-                                        // panes.get(0).getChildren().add(arc);
-
-                                        x1 = 0;
-
-                                        x2 = 0;
-
-                                        y1 = 0;
-
-                                        y2 = 0;
-                                        arc.updateArrow();
-                                        graph.addArc(arc);
-                                        //  arc.updateUnorientedArrow();
-
-
-                                        this.arc = new Arc(x1, y1, x2, y2);
-
+                                    Pane pane = (Pane) graph.getTab().getContent();
+                                    pane.getChildren().add(arc);
+                                    if (penLine.isDisable()) {
+                                        arc.setArrow(pane);
+                                    } else if (unorientedArc.isDisable()) {
+                                        arc.setUnorientedArrow(pane);
+                                        arc.updateUnorientedArrow();
                                     }
+
+
+                                    // panes.get(0).getChildren().add(arc);
+
+                                    x1 = 0;
+
+                                    x2 = 0;
+
+                                    y1 = 0;
+
+                                    y2 = 0;
+                                    arc.updateArrow();
+                                    graph.addArc(arc);
+                                    //  arc.updateUnorientedArrow();
+
+
+                                    this.arc = new Arc(x1, y1, x2, y2);
 
                                 }
 
                             }
 
                         }
+
 
                     }
                 }
@@ -721,13 +741,15 @@ public class MyControler implements Initializable {
 
                     for (Graph graph : graphs) {
 
-                        for (Vertex vertex : graph.getVertices()) {
-
-                            vertex.getCircle().setFill(Color.WHITE);
-
-                        }
 
                         Arc arc = (Arc) t.getSource();
+                        /*arc.setOnKeyPressed(e -> {
+                            if (e.getCode() == KeyCode.DELETE) {
+                                arc.getBegin().getArcs().remove(arc);
+                                arc.getEnd().getArcs().remove(arc);
+                                pane.getChildren().remove(arc);
+                            }
+                        });*/
                         if (Math.abs(t.getX() - arc.getStartX()) < 25 && Math.abs(t.getY() - arc.getStartY()) < 25) {
 
                             arc.setStartX(t.getX());
