@@ -1,12 +1,14 @@
 package ch.makery.address.controller;
 
 
+import java.awt.*;
 import java.io.IOException;
 import java.io.InputStream;
 
 import java.net.URL;
 
 import java.util.*;
+import java.util.List;
 
 
 import ch.makery.address.model.Arc;
@@ -15,6 +17,7 @@ import ch.makery.address.model.Graph;
 
 import ch.makery.address.model.Vertex;
 
+import javafx.beans.property.SimpleObjectProperty;
 import javafx.event.ActionEvent;
 
 import javafx.event.EventHandler;
@@ -25,10 +28,15 @@ import javafx.fxml.Initializable;
 
 import javafx.scene.Cursor;
 
+import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.scene.control.*;
 
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
+import javafx.scene.control.MenuItem;
+import javafx.scene.control.TextField;
 import javafx.scene.image.Image;
 
 import javafx.scene.image.ImageView;
@@ -50,6 +58,8 @@ import javafx.scene.transform.Translate;
 import javafx.stage.Modality;
 
 import javafx.stage.Stage;
+
+import static javafx.scene.input.KeyCode.DELETE;
 
 
 public class MyControler implements Initializable {
@@ -331,12 +341,23 @@ public class MyControler implements Initializable {
             for (Graph graph : graphs) {
                 if (graph.getTab().isSelected()) {
                     for (Vertex vertex : graph.getVertices()) {
-                        vertex.getCircle().setOnMousePressed(circleOnMousePressedEventHandler);
+                        vertex.getCircle().setOnMousePressed(circleOnMousePressedEventHandler.get());
                         vertex.getCircle().setOnMouseDragged(circleOnMouseDraggedEventHandler);
 
                         for (Arc arc : vertex.getArcs()) {
                             arc.setOnMouseDragged(transLine);
+                            arc.setOnMousePressed(e -> {
+                                arc.setColor(Color.DARKORANGE);
+                                arc.getScene().setOnKeyPressed(e1 -> {
+                                    if (e1.getCode() == KeyCode.DELETE) {
+                                        arc.getBegin().getArcs().remove(arc);
+                                        arc.getEnd().getArcs().remove(arc);
+                                        pane.getChildren().removeAll(arc.getArrow());
+                                        pane.getChildren().remove(arc);
+                                    }
+                                });
 
+                            });
                         }
                     }
                 }
@@ -432,7 +453,8 @@ public class MyControler implements Initializable {
                         for (Arc arc : vertex.getArcs()) {
 
                             arc.setOnMouseReleased(event1 -> {
-                                arc.setStroke(Color.DARKORANGE);
+                                // arc.setStroke(Color.DARKORANGE);
+                                arc.setColor(Color.DARKORANGE);
                                 final ColorPicker colorPicker = new ColorPicker();
                                 colorPicker.setValue(Color.RED);
                                 Pane pane = (Pane) graph.getTab().getContent();
@@ -443,6 +465,7 @@ public class MyControler implements Initializable {
                                 });
 
                             });
+
                         }
                         vertex.getCircle().setOnMouseReleased(e -> {
                             vertex.getCircle().setStroke(Color.DARKORANGE);
@@ -463,111 +486,112 @@ public class MyControler implements Initializable {
     };
 
 
-    EventHandler<MouseEvent> circleOnMousePressedEventHandler =
+    SimpleObjectProperty<EventHandler<MouseEvent>> circleOnMousePressedEventHandler
 
-            new EventHandler<MouseEvent>() {
-
-
-                @Override
-
-                public void handle(MouseEvent t) {
-
-                    if (transform.isDisable()) {
-                        for (Graph graph : graphs) {
-                            if (graph.getTab().isSelected()) {
-                                Circle circle = (Circle) t.getSource();
-
-                                for (Vertex vertex : graph.getVertices()) {
-                                    vertex.getCircle().setStroke(Color.BLACK);
-                                    if (vertex.getCircle() == circle) {
-                                        //vertex.getCircle().setFill(Color.GREEN);
-
-                                        vertex.getCircle().setStroke(Color.DARKORANGE);
-                                        vertex.getCircle().getScene().setOnKeyPressed(e -> {
-                                            if (e.getCode() == KeyCode.I) {
-
-                                                Label secondLabel = new Label("Enter name vertex");
-
-                                                TextField textField = new TextField("Enter name");
-
-                                                textField.setMinWidth(120);
-
-                                                Button button1 = new Button("Button with Text");
+            = new SimpleObjectProperty<>(this, "circleOnMousePressedEventHandler", new EventHandler<MouseEvent>() {
 
 
-                                                VBox secondaryLayout = new VBox();
+        @Override
 
-                                                secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
+        public void handle(MouseEvent t) {
 
+            if (transform.isDisable()) {
+                for (Graph graph : graphs) {
+                    if (graph.getTab().isSelected()) {
+                        Circle circle = (Circle) t.getSource();
 
-                                                Scene secondScene = new Scene(secondaryLayout, 230, 100);
+                        for (Vertex vertex : graph.getVertices()) {
+                            vertex.getCircle().setStroke(Color.BLACK);
+                            if (vertex.getCircle() == circle) {
+                                //vertex.getCircle().setFill(Color.GREEN);
 
+                                vertex.getCircle().setStroke(Color.DARKORANGE);
+                                vertex.getCircle().getScene().setOnKeyPressed(e -> {
+                                    if (e.getCode() == KeyCode.I) {
 
-                                                // New window (Stage)
+                                        Label secondLabel = new Label("Enter name vertex");
 
-                                                Stage newWindow = new Stage();
+                                        TextField textField = new TextField("Enter name");
 
-                                                newWindow.setTitle("Enter name");
+                                        textField.setMinWidth(120);
 
-                                                newWindow.setScene(secondScene);
-
-
-                                                // Specifies the modality for new window.
-
-                                                newWindow.initModality(Modality.WINDOW_MODAL);
-
-
-                                                // Specifies the owner Window (parent) for new window
-
-                                                newWindow.initOwner(stage);
-
-
-                                                // Set position of second window, related to primary window.
-
-                                                newWindow.setX(stage.getX() + 100);
-
-                                                newWindow.setY(stage.getY() + 100);
+                                        Button button1 = new Button("Button with Text");
 
 
-                                                button1.setOnAction(new EventHandler<ActionEvent>() {
+                                        VBox secondaryLayout = new VBox();
 
-                                                    @Override
+                                        secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
 
-                                                    public void handle(ActionEvent actionEvent) {
 
-                                                        vertex.getText().setText(textField.getText());
+                                        Scene secondScene = new Scene(secondaryLayout, 230, 100);
 
-                                                        newWindow.close();
 
-                                                    }
+                                        // New window (Stage)
 
-                                                });
-                                                newWindow.show();
-                                            } else if (e.getCode() == KeyCode.DELETE) {
-                                                Pane pane = (Pane) graph.getTab().getContent();
+                                        Stage newWindow = new Stage();
 
-                                                pane.getChildren().remove(vertex.getCircle());
+                                        newWindow.setTitle("Enter name");
+
+                                        newWindow.setScene(secondScene);
+
+
+                                        // Specifies the modality for new window.
+
+                                        newWindow.initModality(Modality.WINDOW_MODAL);
+
+
+                                        // Specifies the owner Window (parent) for new window
+
+                                        newWindow.initOwner(stage);
+
+
+                                        // Set position of second window, related to primary window.
+
+                                        newWindow.setX(stage.getX() + 100);
+
+                                        newWindow.setY(stage.getY() + 100);
+
+
+                                        button1.setOnAction(actionEvent -> {
+
+                                            vertex.getText().setText(textField.getText());
+
+                                            newWindow.close();
+
+                                        });
+                                        newWindow.show();
+                                    } else if (e.getCode() == DELETE) {
+                                        Pane pane = (Pane) graph.getTab().getContent();
+                                        try {
+                                            circleArray.remove(vertex.getCircle());
+                                            pane.getChildren().remove(vertex.getCircle());
+                                            pane.getChildren().removeAll(vertex.getArcs());
+                                            if (!vertex.getArcs().isEmpty()) {
                                                 for (Arc arc : vertex.getArcs()) {
-                                                    graph.removeArcFromMatrix(arc);
                                                     pane.getChildren().removeAll(arc.getArrow());
                                                 }
-                                                pane.getChildren().removeAll(vertex.getArcs());
-                                                graph.removeVertex(vertex);
+                                                vertex.getArcs().clear();
 
+                                                graph.removeVertex(vertex);
                                             }
-                                        });
+                                        } catch (Exception exception) {
+                                            exception.printStackTrace();
+                                        }
                                     }
 
-
-                                }
-
+                                });
                             }
+
+
                         }
+
                     }
-
                 }
+            }
 
-            };
+        }
+
+    });
 
 
     EventHandler<MouseEvent> circleOnMouseDraggedEventHandler =
@@ -743,13 +767,8 @@ public class MyControler implements Initializable {
 
 
                         Arc arc = (Arc) t.getSource();
-                        /*arc.setOnKeyPressed(e -> {
-                            if (e.getCode() == KeyCode.DELETE) {
-                                arc.getBegin().getArcs().remove(arc);
-                                arc.getEnd().getArcs().remove(arc);
-                                pane.getChildren().remove(arc);
-                            }
-                        });*/
+
+
                         if (Math.abs(t.getX() - arc.getStartX()) < 25 && Math.abs(t.getY() - arc.getStartY()) < 25) {
 
                             arc.setStartX(t.getX());
