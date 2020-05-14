@@ -1,9 +1,7 @@
 package ch.makery.address.controller;
 
 
-import java.awt.*;
 import java.io.IOException;
-import java.io.InputStream;
 
 import java.net.URL;
 
@@ -17,7 +15,11 @@ import ch.makery.address.model.Graph;
 
 import ch.makery.address.model.Vertex;
 
-import javafx.beans.property.SimpleObjectProperty;
+import javafx.animation.KeyFrame;
+import javafx.animation.KeyValue;
+import javafx.animation.Timeline;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 
 import javafx.event.EventHandler;
@@ -28,7 +30,6 @@ import javafx.fxml.Initializable;
 
 import javafx.scene.Cursor;
 
-import javafx.scene.Parent;
 import javafx.scene.Scene;
 
 import javafx.scene.control.*;
@@ -37,9 +38,6 @@ import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.MenuItem;
 import javafx.scene.control.TextField;
-import javafx.scene.image.Image;
-
-import javafx.scene.image.ImageView;
 
 import javafx.scene.input.*;
 
@@ -49,15 +47,14 @@ import javafx.scene.layout.VBox;
 
 import javafx.scene.paint.Color;
 
-import javafx.scene.shape.ArcType;
 import javafx.scene.shape.Circle;
 
-import javafx.scene.shape.Line;
 import javafx.scene.transform.Translate;
 
 import javafx.stage.Modality;
 
 import javafx.stage.Stage;
+import javafx.util.Duration;
 
 import static javafx.scene.input.KeyCode.DELETE;
 
@@ -137,12 +134,21 @@ public class MyControler implements Initializable {
     @FXML
 
     public Button colorChange = new Button();
+
+    @FXML
+
+    private MenuItem showPowerVert = new MenuItem();
+
+
     private List<Graph> graphs = new ArrayList<>();
 
     private List<Pane> panes = new ArrayList<>();
 
     private ArrayList<Circle> circleArray = new ArrayList<>();
     private List<Button> buttons = new ArrayList<>();
+    private DoubleProperty fontSize = new SimpleDoubleProperty(10);
+    private IntegerProperty blues = new SimpleIntegerProperty(50);
+
 
     private void setGraphName(Tab tab) {
         Label secondLabel = new Label("Enter graph name");
@@ -351,7 +357,7 @@ public class MyControler implements Initializable {
     }
 
 
-    Runnable thread = new Runnable() {
+    Runnable choosing = new Runnable() {
 
         @Override
 
@@ -359,20 +365,35 @@ public class MyControler implements Initializable {
 
             for (Graph graph : graphs) {
                 if (graph.getTab().isSelected()) {
+
                     for (Vertex vertex : graph.getVertices()) {
+
                         vertex.getCircle().setOnMousePressed(circleOnMousePressedEventHandler.get());
-                        vertex.getCircle().setOnMouseEntered(event -> vertex.getCircle().setStroke(Color.DARKORANGE));
+                        vertex.getCircle().setOnMouseEntered(event -> {
+                            if (!vertex.getCircle().getStroke().equals(Color.ORANGERED))
+                                vertex.getCircle().setStroke(Color.DARKORANGE);
+                        });
                         vertex.getCircle().setOnMouseExited(event -> {
-                            if (vertex.getCircle().getStroke().equals(Color.ORANGERED))
+                            if (!vertex.getCircle().getStroke().equals(Color.ORANGERED))
                                 vertex.getCircle().setStroke(Color.BLACK);
                         });
                         vertex.getCircle().setOnMouseDragged(circleOnMouseDraggedEventHandler);
 
                         for (Arc arc : vertex.getArcs()) {
-
                             arc.setOnMouseDragged(transLine);
-                            arc.setOnMouseEntered(e -> {
-                                arc.setColor(Color.DARKORANGE);
+                            arc.setOnMouseEntered(event -> {
+                                if (!arc.getStroke().equals(Color.ORANGERED))
+                                    arc.setColor(Color.DARKORANGE);
+                            });
+                            arc.setOnMousePressed(e -> {
+                                arc.setColor(Color.ORANGERED);
+                                graph.getVertices().forEach(vertex1 -> {
+                                    vertex1.getCircle().setStroke(Color.BLACK);
+                                    vertex1.getArcs().forEach(arc1 -> {
+                                        if (arc != arc1)
+                                            arc1.setColor(Color.BLACK);
+                                    });
+                                });
                                 arc.getScene().setOnKeyPressed(e1 -> {
                                     if (e1.getCode() == KeyCode.DELETE) {
                                         arc.getBegin().getArcs().remove(arc);
@@ -382,7 +403,10 @@ public class MyControler implements Initializable {
                                     }
                                 });
                             });
-                            arc.setOnMouseExited(event -> arc.setColor(Color.BLACK));
+                            arc.setOnMouseExited(event -> {
+                                if (!arc.getStroke().equals(Color.ORANGERED))
+                                    arc.setColor(Color.BLACK);
+                            });
                         }
                     }
                 }
@@ -390,14 +414,13 @@ public class MyControler implements Initializable {
         }
     };
 
-
     public void transformAction(ActionEvent event) {
 
         MyApplication.scene.setCursor(Cursor.DEFAULT);
         for (Button button : buttons) {
             button.setDisable(button.getText().equals("Transform"));
         }
-        thread.run();
+        choosing.run();
     }
 
 
@@ -493,7 +516,7 @@ public class MyControler implements Initializable {
 
                         }
                         vertex.getCircle().setOnMouseReleased(e -> {
-                            vertex.getCircle().setStroke(Color.DARKORANGE);
+                            vertex.getCircle().setStroke(Color.ORANGERED);
                             final ColorPicker colorPicker = new ColorPicker();
                             colorPicker.setValue(Color.RED);
                             Pane pane = (Pane) graph.getTab().getContent();
@@ -524,54 +547,35 @@ public class MyControler implements Initializable {
                 for (Graph graph : graphs) {
                     if (graph.getTab().isSelected()) {
                         Circle circle = (Circle) t.getSource();
-
+                        graph.getVertices().forEach(vertex -> {
+                            vertex.getArcs().forEach(arc1 -> {
+                                arc1.setColor(Color.BLACK);
+                            });
+                        });
                         for (Vertex vertex : graph.getVertices()) {
-                            vertex.getCircle().setStroke(Color.BLACK);
+
                             if (vertex.getCircle() == circle) {
                                 //vertex.getCircle().setFill(Color.GREEN);
 
                                 vertex.getCircle().setStroke(Color.ORANGERED);
                                 vertex.getCircle().getScene().setOnKeyPressed(e -> {
                                     if (e.getCode() == KeyCode.I) {
-
                                         Label secondLabel = new Label("Enter name vertex");
-
                                         TextField textField = new TextField("Enter name");
-
                                         textField.setMinWidth(120);
-
                                         Button button1 = new Button("Button with Text");
-
-
                                         VBox secondaryLayout = new VBox();
-
                                         secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
-
-
                                         Scene secondScene = new Scene(secondaryLayout, 230, 100);
-
-
                                         // New window (Stage)
-
                                         Stage newWindow = new Stage();
-
                                         newWindow.setTitle("Enter name");
-
                                         newWindow.setScene(secondScene);
-
-
                                         // Specifies the modality for new window.
-
                                         newWindow.initModality(Modality.WINDOW_MODAL);
-
-
                                         // Specifies the owner Window (parent) for new window
-
                                         newWindow.initOwner(stage);
-
-
                                         // Set position of second window, related to primary window.
-
                                         newWindow.setX(stage.getX() + 100);
 
                                         newWindow.setY(stage.getY() + 100);
@@ -604,6 +608,8 @@ public class MyControler implements Initializable {
                                     }
 
                                 });
+                            } else {
+                                vertex.getCircle().setStroke(Color.BLACK);
                             }
 
 
@@ -619,12 +625,8 @@ public class MyControler implements Initializable {
 
 
     EventHandler<MouseEvent> circleOnMouseDraggedEventHandler =
-
             new EventHandler<MouseEvent>() {
-
-
                 @Override
-
                 public void handle(MouseEvent t) {
 
                     for (Graph graph : graphs) {
@@ -648,6 +650,8 @@ public class MyControler implements Initializable {
                                 vertex.getText().setX(vertex.getCircle().getCenterX() + 10);
                                 vertex.getText().setY(vertex.getCircle().getCenterY() + 10);
 
+                                vertex.getPower().setX(vertex.getCircle().getCenterX() - 4);
+                                vertex.getPower().setY(vertex.getCircle().getCenterY() - 15);
                                 if (vertex.getCircle() == circle && vertex.getArcs() != null) {
 
                                     for (Arc arc : vertex.getArcs()) {
@@ -671,7 +675,10 @@ public class MyControler implements Initializable {
                                     }
 
                                 }
+                                if (vertex.getCircle() != circle) {
+                                    vertex.getCircle().setStroke(Color.BLACK);
 
+                                }
 
                             }
                         }
@@ -844,5 +851,51 @@ public class MyControler implements Initializable {
                 }
             };
 
+
+    public void showPowerVertAction(ActionEvent actionEvent) throws InterruptedException {
+        for (Graph graph : graphs) {
+            if (graph.getTab().isSelected()) {
+                for (Vertex vertex : graph.getVertices()) {
+
+                    fontSize.bind(pane.widthProperty().add(pane.heightProperty()).divide(50));
+                    vertex.getPower().styleProperty().bind(Bindings.concat("-fx-font-size: ", fontSize.asString(), ";"
+                            , "-fx-base: rgb(100,100,", blues.asString(), ");"));
+
+                    vertex.setPowerInPane((Pane) graph.getTab().getContent());
+                    vertex.getPower().setX(vertex.getCircle().getCenterX() - 4);
+                    vertex.getPower().setY(vertex.getCircle().getCenterY() + 4);
+
+                    Timeline timeline = new Timeline();
+                    timeline.setCycleCount(1);
+                    Duration duration = new Duration(1000);
+                    KeyValue kvy = new KeyValue(vertex.getPower().yProperty(), vertex.getCircle().getCenterY() - 15);
+                    KeyFrame kfy = new KeyFrame(duration, kvy);
+                    timeline.getKeyFrames().add(kfy);
+                    timeline.play();
+                    timeline.setOnFinished(event -> {
+                        Timeline timeline1 = new Timeline();
+                        timeline1.setCycleCount(1);
+                        Duration duration1 = new Duration(10000);
+
+                        KeyFrame kfy1 = new KeyFrame(duration1);
+                        timeline1.getKeyFrames().add(kfy1);
+                        timeline1.play();
+                        timeline1.setOnFinished(eventt -> {
+                            Timeline timeline2 = new Timeline();
+                            timeline2.setCycleCount(1);
+                            Duration duration2 = new Duration(900);
+                            KeyValue kvy2 = new KeyValue(vertex.getPower().yProperty(), vertex.getCircle().getCenterY());
+                            KeyFrame kfy2 = new KeyFrame(duration2, kvy2);
+                            timeline2.getKeyFrames().add(kfy2);
+                            timeline2.play();
+                            timeline2.setOnFinished(even -> pane.getChildren().remove(vertex.getPower()));
+                        });
+                    });
+
+
+                }
+            }
+        }
+    }
 
 }
