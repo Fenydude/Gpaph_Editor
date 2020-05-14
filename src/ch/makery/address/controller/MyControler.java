@@ -139,6 +139,8 @@ public class MyControler implements Initializable {
 
     private MenuItem showPowerVert = new MenuItem();
 
+    @FXML
+    public MenuItem showGraphInfo = new MenuItem();
 
     private List<Graph> graphs = new ArrayList<>();
 
@@ -914,4 +916,13 @@ public class MyControler implements Initializable {
         }
     }
 
+    public void showGraphInfo(ActionEvent event) {
+        for (Graph graph : graphs) {
+            if (graph.getTab().isSelected()) {
+                graph.showInfo(stage);
+            }
+        }
+
+
+    }
 }

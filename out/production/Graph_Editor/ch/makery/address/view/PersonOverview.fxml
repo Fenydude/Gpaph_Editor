@@ -26,6 +26,7 @@
                         <MenuItem mnemonicParsing="false" text="getGraph" />
                         <MenuItem fx:id="showMultipleArcBut" mnemonicParsing="false" onAction="#showMultipleArc" text="ShowMultipleArc" />
                         <MenuItem fx:id="showPowerVert" mnemonicParsing="false" onAction="#showPowerVertAction" text="Show power vertex" />
+                        <MenuItem fx:id="showGraphInfo" mnemonicParsing="false" onAction="#showGraphInfo" text="Show graph info" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
