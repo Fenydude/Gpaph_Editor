@@ -9,76 +9,66 @@
 <?import javafx.scene.layout.AnchorPane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0"
-            prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1"
-            fx:controller="ch.makery.address.controller.MyControler">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.makery.address.controller.MyControler">
     <children>
         <MenuBar layoutY="1.0">
             <menus>
                 <Menu mnemonicParsing="false" text="File">
                     <items>
-                        <MenuItem fx:id="newPane" mnemonicParsing="false" onAction="#newPaneAction" text="New  Pane"/>
-                        <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveAction" text="Save"/>
-                        <MenuItem fx:id="saveAs" mnemonicParsing="false" onAction="#saveAsAction" text="Save as"/>
-                        <MenuItem fx:id="open" mnemonicParsing="false" onAction="#openAction" text="Open"/>
-                        <MenuItem mnemonicParsing="false" text="Close"/>
+                        <MenuItem fx:id="newPane" mnemonicParsing="false" onAction="#newPaneAction" text="New  Pane" />
+                        <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveAction" text="Save" />
+                        <MenuItem fx:id="open" mnemonicParsing="false" onAction="#openAction" text="Open" />
+                        <MenuItem mnemonicParsing="false" text="Close" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Edit">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="getGraph"/>
-                        <MenuItem fx:id="showMultipleArcBut" mnemonicParsing="false" onAction="#showMultipleArc"
-                                  text="ShowMultipleArc"/>
+                        <MenuItem mnemonicParsing="false" text="getGraph" />
+                        <MenuItem fx:id="showMultipleArcBut" mnemonicParsing="false" onAction="#showMultipleArc" text="ShowMultipleArc" />
+                        <MenuItem fx:id="showPowerVert" mnemonicParsing="false" onAction="#showPowerVertAction" text="Show power vertex" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
                     <items>
-                        <MenuItem mnemonicParsing="false" text="About"/>
+                        <MenuItem mnemonicParsing="false" text="About" />
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-        <Button fx:id="transform" layoutX="552.0" layoutY="166.0" mnemonicParsing="false" onAction="#transformAction"
-                prefHeight="36.0" prefWidth="36.0" text="Transform">
+        <Button fx:id="transform" layoutX="552.0" layoutY="166.0" mnemonicParsing="false" onAction="#transformAction" prefHeight="36.0" prefWidth="36.0" text="Transform">
             <font>
-                <Font size="7.0"/>
+                <Font size="7.0" />
             </font>
         </Button>
-        <Button fx:id="penLine" layoutX="552.0" layoutY="94.0" mnemonicParsing="false" onAction="#penLineAction"
-                prefHeight="36.0" prefWidth="36.0" text="Arc" AnchorPane.topAnchor="94.0">
+        <Button fx:id="penLine" layoutX="552.0" layoutY="94.0" mnemonicParsing="false" onAction="#penLineAction" prefHeight="36.0" prefWidth="36.0" text="Arc" AnchorPane.topAnchor="94.0">
             <font>
-                <Font size="7.0"/>
+                <Font size="7.0" />
             </font>
         </Button>
-        <Button fx:id="penCircle" layoutX="552.0" layoutY="58.0" mnemonicParsing="false" onAction="#penCircleAction"
-                prefHeight="36.0" prefWidth="36.0" text="Circle">
+        <Button fx:id="penCircle" layoutX="552.0" layoutY="58.0" mnemonicParsing="false" onAction="#penCircleAction" prefHeight="36.0" prefWidth="36.0" text="Circle">
             <font>
-                <Font size="7.0"/>
+                <Font size="7.0" />
             </font>
         </Button>
-        <Button fx:id="unorientedArc" layoutX="552.0" layoutY="130.0" mnemonicParsing="false"
-                onAction="#unorientedArcAction" prefHeight="36.0" prefWidth="36.0" text="BiArc">
+        <Button fx:id="unorientedArc" layoutX="552.0" layoutY="130.0" mnemonicParsing="false" onAction="#unorientedArcAction" prefHeight="36.0" prefWidth="36.0" text="BiArc">
             <font>
-                <Font size="7.0"/>
+                <Font size="7.0" />
             </font>
         </Button>
-        <Button fx:id="colorChange" layoutX="552.0" layoutY="200.0" mnemonicParsing="false" onAction="#colorChange"
-                prefHeight="36.0" prefWidth="36.0" text="color">
+        <Button fx:id="colorChange" layoutX="552.0" layoutY="200.0" mnemonicParsing="false" onAction="#colorChange" prefHeight="36.0" prefWidth="36.0" text="color">
             <font>
-                <Font size="7.0"/>
+                <Font size="7.0" />
             </font>
         </Button>
 
-    <Button fx:id="loop" layoutX="552.0" layoutY="290.0" mnemonicParsing="false" onAction="#loop" prefHeight="36.0"
-            prefWidth="36.0" text="loop">
+    <Button fx:id="loop" layoutX="552.0" layoutY="290.0" mnemonicParsing="false" onAction="#loop" prefHeight="36.0" prefWidth="36.0" text="loop">
         <font>
-            <Font size="7.0"/>
+            <Font size="7.0" />
         </font>
     </Button>
-    <TabPane fx:id="tabPane" layoutY="27.0" prefHeight="374.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE"
-             AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="27.0">
+    <TabPane fx:id="tabPane" layoutY="27.0" prefHeight="374.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="27.0">
         <tabs>
-            <Tab fx:id="tab" text="New File"/>
+            <Tab fx:id="tab" text="New File" />
         </tabs>
     </TabPane>
 </children>

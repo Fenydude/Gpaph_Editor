@@ -1,5 +1,6 @@
 package ch.makery.address.model;
 
+import javafx.beans.binding.Bindings;
 import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
@@ -17,6 +18,9 @@ public class Vertex extends Group implements Serializable {
     private Circle circle;
     private int vertexId;
     private Text text = new Text();
+
+    private Text power = new Text("0");
+    private int intpower = 0;
     private List<Arc> arcs = new ArrayList<>();
     private final float CIRCLE_RADIUS = 10.0f;
     private double vertexTransX, vertexTransY;
@@ -37,8 +41,22 @@ public class Vertex extends Group implements Serializable {
         circle.setPickOnBounds(true);
         circle.setFill(Color.WHITE);
         pane.getChildren().add(circle);
+
     }
 
+    public void updatePower(){
+        power.setText(Integer.toString (arcs.size()));
+    }
+
+    public void setPowerInPane(Pane pane) {
+
+        pane.getChildren().add(power);
+
+    }
+
+    public Text getPower() {
+        return power;
+    }
 
     public Text getText() {
 
