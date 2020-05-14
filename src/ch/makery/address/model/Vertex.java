@@ -17,6 +17,8 @@ public class Vertex extends Group implements Serializable {
     private Circle circle;
     private int vertexId;
     private Text text = new Text();
+    private Text stepen;
+
     private List<Arc> arcs = new ArrayList<>();
     private final float CIRCLE_RADIUS = 10.0f;
     private double vertexTransX, vertexTransY;
@@ -107,23 +109,5 @@ public class Vertex extends Group implements Serializable {
         this.arcs = arcs;
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.writeObject(circle.toString());
-        s.writeObject(text.toString());
-        //   s.writeObject(arcs.toString());
-        // s.write(id);
 
-    }
-
-
-    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
-
-
-        setCircle(new Circle(s.read()));
-        setText(new Text(s.readObject().toString()));
-
-        //setId(s.readInt());
-
-
-    }
 }

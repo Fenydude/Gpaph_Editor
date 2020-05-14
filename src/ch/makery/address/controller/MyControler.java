@@ -216,9 +216,8 @@ public class MyControler implements Initializable {
                     Set<Arc> arcs = new HashSet<>();
                     for (Vertex vertex : graph.getVertices()) {
                         arcs.addAll(vertex.getArcs());
-
                     }
-                    fileWorkController.saveNode(graph.getVertices(), arcs,graph.getTab().getText());
+                    fileWorkController.saveNode(graph.getVertices(), arcs, graph.getTab().getText());
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -362,11 +361,17 @@ public class MyControler implements Initializable {
                 if (graph.getTab().isSelected()) {
                     for (Vertex vertex : graph.getVertices()) {
                         vertex.getCircle().setOnMousePressed(circleOnMousePressedEventHandler.get());
+                        vertex.getCircle().setOnMouseEntered(event -> vertex.getCircle().setStroke(Color.DARKORANGE));
+                        vertex.getCircle().setOnMouseExited(event -> {
+                            if (vertex.getCircle().getStroke().equals(Color.ORANGERED))
+                                vertex.getCircle().setStroke(Color.BLACK);
+                        });
                         vertex.getCircle().setOnMouseDragged(circleOnMouseDraggedEventHandler);
 
                         for (Arc arc : vertex.getArcs()) {
+
                             arc.setOnMouseDragged(transLine);
-                            arc.setOnMousePressed(e -> {
+                            arc.setOnMouseEntered(e -> {
                                 arc.setColor(Color.DARKORANGE);
                                 arc.getScene().setOnKeyPressed(e1 -> {
                                     if (e1.getCode() == KeyCode.DELETE) {
@@ -376,8 +381,8 @@ public class MyControler implements Initializable {
                                         pane.getChildren().remove(arc);
                                     }
                                 });
-
                             });
+                            arc.setOnMouseExited(event -> arc.setColor(Color.BLACK));
                         }
                     }
                 }
@@ -474,7 +479,7 @@ public class MyControler implements Initializable {
 
                             arc.setOnMouseReleased(event1 -> {
                                 // arc.setStroke(Color.DARKORANGE);
-                                arc.setColor(Color.DARKORANGE);
+                                arc.setColor(Color.ORANGERED);
                                 final ColorPicker colorPicker = new ColorPicker();
                                 colorPicker.setValue(Color.RED);
                                 Pane pane = (Pane) graph.getTab().getContent();
@@ -525,7 +530,7 @@ public class MyControler implements Initializable {
                             if (vertex.getCircle() == circle) {
                                 //vertex.getCircle().setFill(Color.GREEN);
 
-                                vertex.getCircle().setStroke(Color.DARKORANGE);
+                                vertex.getCircle().setStroke(Color.ORANGERED);
                                 vertex.getCircle().getScene().setOnKeyPressed(e -> {
                                     if (e.getCode() == KeyCode.I) {
 
@@ -575,7 +580,6 @@ public class MyControler implements Initializable {
                                         button1.setOnAction(actionEvent -> {
 
                                             vertex.getText().setText(textField.getText());
-
                                             newWindow.close();
 
                                         });
@@ -642,7 +646,6 @@ public class MyControler implements Initializable {
                                 }
 
                                 vertex.getText().setX(vertex.getCircle().getCenterX() + 10);
-
                                 vertex.getText().setY(vertex.getCircle().getCenterY() + 10);
 
                                 if (vertex.getCircle() == circle && vertex.getArcs() != null) {
@@ -727,11 +730,7 @@ public class MyControler implements Initializable {
                                     arc.setEndX(vertex.getCircle().getCenterX());
 
                                     arc.setEndY(vertex.getCircle().getCenterY());
-
-
-                                    vertex.getArcs().add(arc);
-
-
+                                    //vertex.getArcs().add(arc);
                                     Pane pane = (Pane) graph.getTab().getContent();
                                     pane.getChildren().add(arc);
                                     if (penLine.isDisable()) {
@@ -787,7 +786,7 @@ public class MyControler implements Initializable {
 
 
                         Arc arc = (Arc) t.getSource();
-
+                        arc.setColor(Color.DARKORANGE);
 
                         if (Math.abs(t.getX() - arc.getStartX()) < 25 && Math.abs(t.getY() - arc.getStartY()) < 25) {
 
