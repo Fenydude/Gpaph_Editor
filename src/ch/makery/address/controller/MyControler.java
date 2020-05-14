@@ -649,7 +649,7 @@ public class MyControler implements Initializable {
 
                                 vertex.getText().setX(vertex.getCircle().getCenterX() + 10);
                                 vertex.getText().setY(vertex.getCircle().getCenterY() + 10);
-
+                                vertex.updatePower();
                                 vertex.getPower().setX(vertex.getCircle().getCenterX() - 4);
                                 vertex.getPower().setY(vertex.getCircle().getCenterY() - 15);
                                 if (vertex.getCircle() == circle && vertex.getArcs() != null) {
@@ -761,7 +761,24 @@ public class MyControler implements Initializable {
                                     graph.addArc(arc);
                                     //  arc.updateUnorientedArrow();
 
+                                    Label secondLabel = new Label("Enter arc weight");
+                                    TextField textField = new TextField("Enter weight");
+                                    textField.setMinWidth(120);
+                                    Button button1 = new Button("Button with Text");
+                                    VBox secondaryLayout = new VBox();
+                                    secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
+                                    Scene secondScene = new Scene(secondaryLayout, 230, 100);
+                                    Stage newWindow = new Stage();
+                                    newWindow.setTitle("Enter weight");
+                                    newWindow.setScene(secondScene);
+                                    newWindow.initModality(Modality.WINDOW_MODAL);
+                                    newWindow.initOwner(stage);
+                                    button1.setOnAction(actionEvent -> {
+                                        arc.setWeight(Integer.parseInt(textField.getText()));
+                                        newWindow.close();
+                                    });
 
+                                    newWindow.show();
                                     this.arc = new Arc(x1, y1, x2, y2);
 
                                 }
@@ -868,6 +885,7 @@ public class MyControler implements Initializable {
                     Timeline timeline = new Timeline();
                     timeline.setCycleCount(1);
                     Duration duration = new Duration(1000);
+                    vertex.updatePower();
                     KeyValue kvy = new KeyValue(vertex.getPower().yProperty(), vertex.getCircle().getCenterY() - 15);
                     KeyFrame kfy = new KeyFrame(duration, kvy);
                     timeline.getKeyFrames().add(kfy);
@@ -891,8 +909,6 @@ public class MyControler implements Initializable {
                             timeline2.setOnFinished(even -> pane.getChildren().remove(vertex.getPower()));
                         });
                     });
-
-
                 }
             }
         }

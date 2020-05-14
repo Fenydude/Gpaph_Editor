@@ -111,29 +111,16 @@ public class Vertex extends Group implements Serializable {
     }
 
     public void updatePower() {
-
-
         power.setText(Integer.toString(arcs.size()));
-
-
     }
-
 
     public void setPowerInPane(Pane pane) {
-
-
         pane.getChildren().add(power);
-
-
     }
 
-
     public Text getPower() {
-
-
+        power.setFill(Color.CORNFLOWERBLUE);
         return power;
-
-
     }
 
 }

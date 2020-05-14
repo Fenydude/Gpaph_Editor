@@ -26,7 +26,7 @@ public class Arc extends Line implements Serializable {
     private Line line2 = new Line();
     private Line line3;
     private Line line4;
-private boolean isUnoriented;
+    private boolean isUnoriented;
 
     public void setUnoriented(boolean unoriented) {
         isUnoriented = unoriented;
@@ -237,5 +237,11 @@ private boolean isUnoriented;
 
     }
 
+    public int getWeight() {
+        return weight;
+    }
 
+    public void setWeight(int weight) {
+        this.weight = weight;
+    }
 }
