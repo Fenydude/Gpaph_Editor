@@ -237,11 +237,5 @@ public class Arc extends Line implements Serializable {
 
     }
 
-    public int getWeight() {
-        return weight;
-    }
 
-    public void setWeight(int weight) {
-        this.weight = weight;
-    }
 }

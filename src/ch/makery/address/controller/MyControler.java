@@ -763,24 +763,7 @@ public class MyControler implements Initializable {
                                     graph.addArc(arc);
                                     //  arc.updateUnorientedArrow();
 
-                                    Label secondLabel = new Label("Enter arc weight");
-                                    TextField textField = new TextField("Enter weight");
-                                    textField.setMinWidth(120);
-                                    Button button1 = new Button("Button with Text");
-                                    VBox secondaryLayout = new VBox();
-                                    secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
-                                    Scene secondScene = new Scene(secondaryLayout, 230, 100);
-                                    Stage newWindow = new Stage();
-                                    newWindow.setTitle("Enter weight");
-                                    newWindow.setScene(secondScene);
-                                    newWindow.initModality(Modality.WINDOW_MODAL);
-                                    newWindow.initOwner(stage);
-                                    button1.setOnAction(actionEvent -> {
-                                        arc.setWeight(Integer.parseInt(textField.getText()));
-                                        newWindow.close();
-                                    });
-
-                                    newWindow.show();
+                                   
                                     this.arc = new Arc(x1, y1, x2, y2);
 
                                 }
