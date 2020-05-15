@@ -18,7 +18,11 @@ public class Vertex extends Group implements Serializable {
     private Circle circle;
     private int vertexId;
     private Text text = new Text();
+<<<<<<< HEAD
 
+=======
+    private Text stepen;
+>>>>>>> 8c1d484a0f35dc5d87bee4640ab1024237aa7806
     private Text power = new Text("0");
     private int intpower = 0;
     private List<Arc> arcs = new ArrayList<>();
@@ -127,23 +131,17 @@ public class Vertex extends Group implements Serializable {
         this.arcs = arcs;
     }
 
-    private void writeObject(ObjectOutputStream s) throws IOException {
-        s.writeObject(circle.toString());
-        s.writeObject(text.toString());
-        //   s.writeObject(arcs.toString());
-        // s.write(id);
-
+    public void updatePower() {
+        power.setText(Integer.toString(arcs.size()));
     }
 
-
-    private void readObject(ObjectInputStream s) throws IOException, ClassNotFoundException {
-
-
-        setCircle(new Circle(s.read()));
-        setText(new Text(s.readObject().toString()));
-
-        //setId(s.readInt());
-
-
+    public void setPowerInPane(Pane pane) {
+        pane.getChildren().add(power);
     }
+
+    public Text getPower() {
+        power.setFill(Color.CORNFLOWERBLUE);
+        return power;
+    }
+
 }

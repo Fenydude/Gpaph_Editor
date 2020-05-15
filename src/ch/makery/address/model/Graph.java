@@ -2,7 +2,14 @@ package ch.makery.address.model;
 
 
 import javafx.scene.Group;
+import javafx.scene.Scene;
+import javafx.scene.control.Button;
+import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.control.TextField;
+import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
 
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -122,6 +129,29 @@ public class Graph extends Group implements Serializable {
 
     }
 
+    public void showInfo(Stage stage) {
+        Label firstLabel = new Label("Vertices");
+        Label verticesInfo = new Label(String.valueOf(getVertices().size()));
+        Label secondLabel = new Label("Arcs");
+        int arcsNum=0;
+        for (Vertex vertex : vertices) {
+            for(Arc arc:vertex.getArcs()){
+                arcsNum++;
+            }
+        }
+        Label arcsInfo = new Label(String.valueOf(arcsNum/2));
+        VBox secondaryLayout = new VBox();
+        secondaryLayout.getChildren().addAll(firstLabel,verticesInfo,secondLabel,arcsInfo);
+        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Enter name");
+        newWindow.setScene(secondScene);
+        newWindow.initModality(Modality.WINDOW_MODAL);
+        newWindow.initOwner(stage);
+        newWindow.setX(stage.getX() + 100);
+        newWindow.setY(stage.getY() + 100);
+        newWindow.show();
+    }
 
 
     public void setMatrixAdjancy(ArrayList<ArrayList<Integer>> matrixAdjancy) {
