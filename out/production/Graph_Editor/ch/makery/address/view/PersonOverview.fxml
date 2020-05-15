@@ -27,6 +27,9 @@
                         <MenuItem fx:id="showMultipleArcBut" mnemonicParsing="false" onAction="#showMultipleArc" text="ShowMultipleArc" />
                         <MenuItem fx:id="showPowerVert" mnemonicParsing="false" onAction="#showPowerVertAction" text="Show power vertex" />
                         <MenuItem fx:id="showGraphInfo" mnemonicParsing="false" onAction="#showGraphInfo" text="Show graph info" />
+                        <MenuItem fx:id="showDistance" mnemonicParsing="false" onAction="#showDistance" text="Show path" />
+                        <MenuItem fx:id="makePlanar" mnemonicParsing="false" onAction="#makePlanar" text="Make planar" />
+                        <MenuItem fx:id="checkForEuler" mnemonicParsing="false" onAction="#checkEuler" text="Euler check" />
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">

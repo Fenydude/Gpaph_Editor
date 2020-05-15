@@ -27,6 +27,15 @@ public class Arc extends Line implements Serializable {
     private Line line3;
     private Line line4;
     private boolean isUnoriented;
+private boolean isVisited = false;
+
+    public boolean isVisited() {
+        return isVisited;
+    }
+
+    public void setVisited(boolean visited) {
+        isVisited = visited;
+    }
 
     public void setUnoriented(boolean unoriented) {
         isUnoriented = unoriented;
@@ -103,8 +112,13 @@ public class Arc extends Line implements Serializable {
         pane.getChildren().add(line4);
     }
 
+
     public boolean isUnoriented() {
         return line3 != null && line4 != null;
+    }
+
+    public boolean isUnorientedArc() {
+        return isUnoriented;
     }
 
     public void setArrow(Pane pane) {

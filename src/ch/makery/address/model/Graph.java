@@ -1,19 +1,17 @@
 package ch.makery.address.model;
 
 
+import ch.makery.address.controller.EulerCycle;
+import ch.makery.address.controller.PlanarityController;
 import javafx.scene.Group;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
-import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+import javafx.util.Pair;
 
-import java.io.FileReader;
-import java.io.FileWriter;
-import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
@@ -133,15 +131,21 @@ public class Graph extends Group implements Serializable {
         Label firstLabel = new Label("Vertices");
         Label verticesInfo = new Label(String.valueOf(getVertices().size()));
         Label secondLabel = new Label("Arcs");
-        int arcsNum=0;
+        int arcsNum = 0;
         for (Vertex vertex : vertices) {
-            for(Arc arc:vertex.getArcs()){
+            for (Arc arc : vertex.getArcs()) {
                 arcsNum++;
             }
         }
-        Label arcsInfo = new Label(String.valueOf(arcsNum/2));
+        Label arcsInfo = new Label(String.valueOf(arcsNum / 2));
+        Label isPlanarGraph = new Label();
+        if (isPlanar()) {
+            isPlanarGraph.setText("graph is planar suka");
+        } else {
+            isPlanarGraph.setText("no blyat");
+        }
         VBox secondaryLayout = new VBox();
-        secondaryLayout.getChildren().addAll(firstLabel,verticesInfo,secondLabel,arcsInfo);
+        secondaryLayout.getChildren().addAll(firstLabel, verticesInfo, secondLabel, arcsInfo, isPlanarGraph);
         Scene secondScene = new Scene(secondaryLayout, 230, 100);
         Stage newWindow = new Stage();
         newWindow.setTitle("Enter name");
@@ -165,4 +169,49 @@ public class Graph extends Group implements Serializable {
     public void setTab(Tab tab) {
         this.tab = tab;
     }
+
+
+    public void checkEuler(Stage stage) {
+        EulerCycle eulerCycle = new EulerCycle();
+        System.out.println(eulerCycle.checkForEiler(matrixAdjancy));
+        ArrayList<Integer> v = new ArrayList<>();
+        StringBuilder path = new StringBuilder();
+        if (eulerCycle.checkForEiler(matrixAdjancy)) {
+            eulerCycle.findEiler(0, v, matrixAdjancy);
+            for (int i = 0; i < v.size(); i++) {
+                //System.out.print(v.get(i));
+                path.append(v.get(i).toString());
+                if (i != v.size() - 1) {
+                    path.append(" ->");
+                    //System.out.print("->");
+                }
+            }
+        } else {
+            path.append("no euler cycle");
+        }
+        Label firstLabel = new Label(path.toString());
+
+        VBox secondaryLayout = new VBox();
+        secondaryLayout.getChildren().addAll(firstLabel);
+        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+        Stage newWindow = new Stage();
+        newWindow.setTitle("Enter name");
+        newWindow.setScene(secondScene);
+        newWindow.initModality(Modality.WINDOW_MODAL);
+        newWindow.initOwner(stage);
+        newWindow.setX(stage.getX() + 100);
+        newWindow.setY(stage.getY() + 100);
+        newWindow.show();
+
+
+    }
+
+    public Graph() {
+    }
+
+    public boolean isPlanar() {
+        return new PlanarityController(this).verify();
+    }
+
+
 }
