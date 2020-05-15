@@ -25,6 +25,7 @@ import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
 
+import javafx.event.Event;
 import javafx.event.EventHandler;
 
 import javafx.fxml.FXML;
@@ -184,7 +185,7 @@ public class MyControler implements Initializable {
 
                     fontSize.bind(pane.widthProperty().add(pane.heightProperty()).divide(50));
                     vertex.getPower().styleProperty().bind(Bindings.concat("-fx-font-size: ", fontSize.asString(), ";"
-                            ,"-fx-base: rgb(100,100,",blues.asString(),");"));
+                            , "-fx-base: rgb(100,100,", blues.asString(), ");"));
 
                     vertex.setPowerInPane((Pane) graph.getTab().getContent());
                     vertex.getPower().setX(vertex.getCircle().getCenterX() - 4);
@@ -197,16 +198,25 @@ public class MyControler implements Initializable {
                     KeyFrame kfy = new KeyFrame(duration, kvy);
                     timeline.getKeyFrames().add(kfy);
                     timeline.play();
+                    timeline.setOnFinished(event -> {
+                        Timeline timeline1 = new Timeline();
+                        timeline1.setCycleCount(1);
+                        Duration duration1 = new Duration(10000);
 
-                    Timeline timeline1 = new Timeline();
-                    timeline1.setCycleCount(1);
-                    Duration duration1 = new Duration(10000);
-
-                    KeyFrame kfy1 = new KeyFrame(duration1);
-                    timeline1.getKeyFrames().add(kfy1);
-                    timeline1.play();
-                    timeline1.setOnFinished(event -> pane.getChildren().remove(vertex.getPower()));
-
+                        KeyFrame kfy1 = new KeyFrame(duration1);
+                        timeline1.getKeyFrames().add(kfy1);
+                        timeline1.play();
+                        timeline1.setOnFinished(eventt -> {
+                            Timeline timeline2 = new Timeline();
+                            timeline2.setCycleCount(1);
+                            Duration duration2 = new Duration(900);
+                            KeyValue kvy2 = new KeyValue(vertex.getPower().yProperty(), vertex.getCircle().getCenterY());
+                            KeyFrame kfy2 = new KeyFrame(duration2, kvy2);
+                            timeline2.getKeyFrames().add(kfy2);
+                            timeline2.play();
+                            timeline2.setOnFinished(even -> pane.getChildren().remove(vertex.getPower()));
+                        });
+                    });
 
 
                 }
@@ -628,7 +638,7 @@ public class MyControler implements Initializable {
                                             vertex.getText().setText(textField.getText());
 
                                             vertex.getText().styleProperty().bind(Bindings.concat("-fx-font-size: ", fontSize.asString(), ";"
-                                                    ,"-fx-base: rgb(100,100,",blues.asString(),");"));
+                                                    , "-fx-base: rgb(100,100,", blues.asString(), ");"));
 
                                             newWindow.close();
 
