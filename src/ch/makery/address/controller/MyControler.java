@@ -18,10 +18,9 @@ import ch.makery.address.model.Vertex;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-<<<<<<< HEAD
+
 import javafx.animation.Transition;
-=======
->>>>>>> 8c1d484a0f35dc5d87bee4640ab1024237aa7806
+
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
@@ -144,10 +143,6 @@ public class MyControler implements Initializable {
     public Button colorChange = new Button();
 
     @FXML
-
-    private MenuItem showPowerVert = new MenuItem();
-
-    @FXML
     public MenuItem showGraphInfo = new MenuItem();
 
     private List<Graph> graphs = new ArrayList<>();
@@ -159,9 +154,6 @@ public class MyControler implements Initializable {
     private DoubleProperty fontSize = new SimpleDoubleProperty(10);
     private IntegerProperty blues = new SimpleIntegerProperty(50);
 
-
-    private DoubleProperty fontSize = new SimpleDoubleProperty(10);
-    private IntegerProperty blues = new SimpleIntegerProperty(50);
 
     private void setGraphName(Tab tab) {
         Label secondLabel = new Label("Enter graph name");
@@ -316,7 +308,7 @@ public class MyControler implements Initializable {
 
         for (Graph graph : graphs) {
             if (graph.getTab().isSelected()) {
-                //   graph.showMultipleArc();
+                   graph.showMultipleArcs();
 
             }
         }
@@ -645,13 +637,11 @@ public class MyControler implements Initializable {
                                         button1.setOnAction(actionEvent -> {
 
                                             vertex.getText().setText(textField.getText());
-<<<<<<< HEAD
 
                                             vertex.getText().styleProperty().bind(Bindings.concat("-fx-font-size: ", fontSize.asString(), ";"
                                                     , "-fx-base: rgb(100,100,", blues.asString(), ");"));
 
-=======
->>>>>>> 8c1d484a0f35dc5d87bee4640ab1024237aa7806
+
                                             newWindow.close();
 
                                         });
@@ -717,16 +707,13 @@ public class MyControler implements Initializable {
 
                                 vertex.getText().setX(vertex.getCircle().getCenterX() + 10);
                                 vertex.getText().setY(vertex.getCircle().getCenterY() + 10);
-<<<<<<< HEAD
 
-                                vertex.getPower().setX(vertex.getCircle().getCenterX() - 4);
-                                vertex.getPower().setY(vertex.getCircle().getCenterY() - 15);
 
-=======
+
+
                                 vertex.updatePower();
                                 vertex.getPower().setX(vertex.getCircle().getCenterX() - 4);
                                 vertex.getPower().setY(vertex.getCircle().getCenterY() - 15);
->>>>>>> 8c1d484a0f35dc5d87bee4640ab1024237aa7806
                                 if (vertex.getCircle() == circle && vertex.getArcs() != null) {
 
                                     for (Arc arc : vertex.getArcs()) {
@@ -807,7 +794,7 @@ public class MyControler implements Initializable {
 
 
                                     arc.setEnd(vertex);
-
+                                    vertex.addArc(arc);
                                     arc.setEndX(vertex.getCircle().getCenterX());
 
                                     arc.setEndY(vertex.getCircle().getCenterY());
@@ -928,54 +915,11 @@ public class MyControler implements Initializable {
                 }
             };
 
-<<<<<<< HEAD
-}
-=======
 
-    public void showPowerVertAction(ActionEvent actionEvent) throws InterruptedException {
-        for (Graph graph : graphs) {
-            if (graph.getTab().isSelected()) {
-                for (Vertex vertex : graph.getVertices()) {
 
-                    fontSize.bind(pane.widthProperty().add(pane.heightProperty()).divide(50));
-                    vertex.getPower().styleProperty().bind(Bindings.concat("-fx-font-size: ", fontSize.asString(), ";"
-                            , "-fx-base: rgb(100,100,", blues.asString(), ");"));
 
-                    vertex.setPowerInPane((Pane) graph.getTab().getContent());
-                    vertex.getPower().setX(vertex.getCircle().getCenterX() - 4);
-                    vertex.getPower().setY(vertex.getCircle().getCenterY() + 4);
 
-                    Timeline timeline = new Timeline();
-                    timeline.setCycleCount(1);
-                    Duration duration = new Duration(1000);
-                    vertex.updatePower();
-                    KeyValue kvy = new KeyValue(vertex.getPower().yProperty(), vertex.getCircle().getCenterY() - 15);
-                    KeyFrame kfy = new KeyFrame(duration, kvy);
-                    timeline.getKeyFrames().add(kfy);
-                    timeline.play();
-                    timeline.setOnFinished(event -> {
-                        Timeline timeline1 = new Timeline();
-                        timeline1.setCycleCount(1);
-                        Duration duration1 = new Duration(10000);
 
-                        KeyFrame kfy1 = new KeyFrame(duration1);
-                        timeline1.getKeyFrames().add(kfy1);
-                        timeline1.play();
-                        timeline1.setOnFinished(eventt -> {
-                            Timeline timeline2 = new Timeline();
-                            timeline2.setCycleCount(1);
-                            Duration duration2 = new Duration(900);
-                            KeyValue kvy2 = new KeyValue(vertex.getPower().yProperty(), vertex.getCircle().getCenterY());
-                            KeyFrame kfy2 = new KeyFrame(duration2, kvy2);
-                            timeline2.getKeyFrames().add(kfy2);
-                            timeline2.play();
-                            timeline2.setOnFinished(even -> pane.getChildren().remove(vertex.getPower()));
-                        });
-                    });
-                }
-            }
-        }
-    }
 
     public void showGraphInfo(ActionEvent event) {
         for (Graph graph : graphs) {
@@ -986,5 +930,16 @@ public class MyControler implements Initializable {
 
 
     }
+
+
+    public void eilerWay(ActionEvent actionEvent) {
+        for (Graph graph : graphs){
+            if(graph.getTab().isSelected()){
+              if(graph.checkForEulerPath()){
+                  System.out.println("Krasava");
+              }
+
+            }
+        }
+    }
 }
->>>>>>> 8c1d484a0f35dc5d87bee4640ab1024237aa7806

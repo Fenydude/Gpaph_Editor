@@ -26,10 +26,9 @@
                         <MenuItem mnemonicParsing="false" text="getGraph" />
                         <MenuItem fx:id="showMultipleArcBut" mnemonicParsing="false" onAction="#showMultipleArc" text="ShowMultipleArc" />
                         <MenuItem fx:id="showPowerVert" mnemonicParsing="false" onAction="#showPowerVertAction" text="Show power vertex" />
-<<<<<<< HEAD
-=======
                         <MenuItem fx:id="showGraphInfo" mnemonicParsing="false" onAction="#showGraphInfo" text="Show graph info" />
->>>>>>> 8c1d484a0f35dc5d87bee4640ab1024237aa7806
+                        <MenuItem fx:id="eilerWay" mnemonicParsing="false" onAction="#eilerWay" text="eilerWay" />
+
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
@@ -65,7 +64,6 @@
             </font>
         </Button>
 
-<<<<<<< HEAD
     <Button fx:id="loop" layoutX="552.0" layoutY="290.0" mnemonicParsing="false" onAction="#loop" prefHeight="36.0" prefWidth="36.0" text="loop">
         <font>
             <Font size="7.0" />
@@ -78,17 +76,4 @@
     </TabPane>
 </children>
         </AnchorPane>
-=======
-        <Button fx:id="loop" layoutX="552.0" layoutY="290.0" mnemonicParsing="false" onAction="#loop" prefHeight="36.0" prefWidth="36.0" text="loop">
-            <font>
-                <Font size="7.0" />
-            </font>
-        </Button>
-        <TabPane fx:id="tabPane" layoutY="27.0" prefHeight="374.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="27.0">
-            <tabs>
-                <Tab fx:id="tab" text="New File" />
-            </tabs>
-        </TabPane>
-    </children>
-</AnchorPane>
->>>>>>> 8c1d484a0f35dc5d87bee4640ab1024237aa7806
+

@@ -18,11 +18,6 @@ public class Vertex extends Group implements Serializable {
     private Circle circle;
     private int vertexId;
     private Text text = new Text();
-<<<<<<< HEAD
-
-=======
-    private Text stepen;
->>>>>>> 8c1d484a0f35dc5d87bee4640ab1024237aa7806
     private Text power = new Text("0");
     private int intpower = 0;
     private List<Arc> arcs = new ArrayList<>();
@@ -48,19 +43,8 @@ public class Vertex extends Group implements Serializable {
 
     }
 
-    public void updatePower(){
-        power.setText(Integer.toString (arcs.size()));
-    }
 
-    public void setPowerInPane(Pane pane) {
 
-        pane.getChildren().add(power);
-
-    }
-
-    public Text getPower() {
-        return power;
-    }
 
     public Text getText() {
 

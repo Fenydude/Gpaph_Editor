@@ -1,6 +1,7 @@
 package ch.makery.address.model;
 
 
+import javafx.event.ActionEvent;
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Button;
@@ -8,6 +9,7 @@ import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
+import javafx.scene.paint.Color;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
 
@@ -16,6 +18,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.Serializable;
 import java.util.ArrayList;
+import java.util.Iterator;
+import java.util.LinkedList;
 import java.util.List;
 
 
@@ -23,7 +27,9 @@ public class Graph extends Group implements Serializable {
 
     private ArrayList<ArrayList<Integer>> matrixAdjancy;
     private List<Vertex> vertices = new ArrayList<>();
+    private List<Arc> arcs = new ArrayList<>();
     private transient Tab tab;
+    private LinkedList<Integer> adj[];
 
 
     public ArrayList<ArrayList<Integer>> getMatrixAdjancy() {
@@ -93,8 +99,10 @@ public class Graph extends Group implements Serializable {
             matrixAdjancy.get(arc.getBegin().getVertexId()).set(arc.getEnd().getVertexId(), 1);
 
             matrixAdjancy.get(arc.getEnd().getVertexId()).set(arc.getBegin().getVertexId(), 1);
+            arcs.add(arc);
         } else {
             matrixAdjancy.get(arc.getBegin().getVertexId()).set(arc.getEnd().getVertexId(), 1);
+            arcs.add(arc);
         }
     }
 
@@ -116,6 +124,68 @@ public class Graph extends Group implements Serializable {
         System.out.println();
     }
 
+    public void showMultipleArcs() {
+
+        for (Vertex vertex : vertices){
+            for (int i = 0; i< vertex.getArcs().size(); i++){
+                for (int j = 1; j<vertex.getArcs().size(); j++){
+                    if(i != j ){
+                        if ( vertex.getArcs().get(i).getEnd().getVertexId() == vertex.getArcs().get(j).getEnd().getVertexId() || vertex.getArcs().get(i).getEnd().getVertexId() == vertex.getArcs().get(j).getBegin().getVertexId()) {
+                            vertex.getArcs().get(i).setColor(Color.BLUE);
+                            vertex.getArcs().get(j).setColor(Color.BLUE);
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    void DFSUtil(int v,boolean visited[])
+    {
+        // Mark the current node as visited and print it
+        visited[v] = true;
+        System.out.print(v+" ");
+
+        // Recur for all the vertices adjacent to this vertex
+        Iterator<Integer> i = adj[v].listIterator();
+        while (i.hasNext())
+        {
+            int n = i.next();
+            if (!visited[n])
+                DFSUtil(n, visited);
+        }
+    }
+
+    public boolean checkForEulerPath() {
+        adj = new LinkedList[vertices.size()];
+        for (int i=0; i<vertices.size(); ++i) {
+            adj[i] = new LinkedList();
+        }
+        int oddVertex = 0;
+        for (Vertex vertex :vertices){
+            if(vertex.getArcs().size()%2 == 1){
+                oddVertex++;
+            }
+        }
+        if (oddVertex>2){
+            return false;
+        }
+        boolean[] visited = {false,false,false,false,false};
+
+        for (Vertex vertex : vertices){
+            if (vertex.getArcs().size()>0){
+                DFSUtil(vertex.getVertexId(), visited);
+                break;
+            }
+        }
+        for (Vertex vertex :vertices){
+            if (vertex.getArcs().size()>0 && !visited[vertex.getVertexId()]){
+                return false;
+            }
+        }
+        return true;
+    }
+
 
     public List<Vertex> getVertices() {
         return vertices;
@@ -125,23 +195,21 @@ public class Graph extends Group implements Serializable {
         this.vertices.add(vertex);
     }
 
-    public void showMultipleArc(ArrayList<Arc> arcs) {
 
-    }
 
     public void showInfo(Stage stage) {
         Label firstLabel = new Label("Vertices");
         Label verticesInfo = new Label(String.valueOf(getVertices().size()));
         Label secondLabel = new Label("Arcs");
-        int arcsNum=0;
+        int arcsNum = 0;
         for (Vertex vertex : vertices) {
-            for(Arc arc:vertex.getArcs()){
+            for (Arc arc : vertex.getArcs()) {
                 arcsNum++;
             }
         }
-        Label arcsInfo = new Label(String.valueOf(arcsNum/2));
+        Label arcsInfo = new Label(String.valueOf(arcsNum / 2));
         VBox secondaryLayout = new VBox();
-        secondaryLayout.getChildren().addAll(firstLabel,verticesInfo,secondLabel,arcsInfo);
+        secondaryLayout.getChildren().addAll(firstLabel, verticesInfo, secondLabel, arcsInfo);
         Scene secondScene = new Scene(secondaryLayout, 230, 100);
         Stage newWindow = new Stage();
         newWindow.setTitle("Enter name");
