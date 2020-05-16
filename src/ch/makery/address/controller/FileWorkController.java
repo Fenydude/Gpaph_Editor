@@ -81,7 +81,7 @@ public class FileWorkController {
                     arc.setBegin(vertex);
                 } else if (vertex.getCircle().getCenterX() == arc.getEndX() && vertex.getCircle().getCenterY() == arc.getEndY()) {
                     arc.setEnd(vertex);
-                    if (!arc.isUnoriented()) {
+                    if (arc.isUnorientedArc()) {
                         arc.setUnorientedArrow(root);
                         arc.updateUnorientedArrow();
                     } else {

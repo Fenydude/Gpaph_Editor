@@ -62,11 +62,17 @@ import javafx.util.Duration;
 
 import static javafx.scene.input.KeyCode.D;
 import static javafx.scene.input.KeyCode.DELETE;
+import static javafx.scene.input.KeyCode.L;
 
 
 public class MyControler implements Initializable {
 
-
+    @FXML
+    public MenuItem showDistance = new MenuItem();
+    @FXML
+    public MenuItem makePlanar = new MenuItem();
+    @FXML
+    public MenuItem checkForEuler = new MenuItem();
     private Translate translate = new Translate();
 
     public int countCircle = 0;
@@ -421,11 +427,13 @@ public class MyControler implements Initializable {
 
                         vertex.getCircle().setOnMousePressed(circleOnMousePressedEventHandler.get());
                         vertex.getCircle().setOnMouseEntered(event -> {
-                            if (!vertex.getCircle().getStroke().equals(Color.ORANGERED))
+                            if (!vertex.getCircle().getStroke().equals(Color.ORANGERED) &&
+                                    !vertex.getCircle().getStroke().equals(Color.GREEN))
                                 vertex.getCircle().setStroke(Color.DARKORANGE);
                         });
                         vertex.getCircle().setOnMouseExited(event -> {
-                            if (!vertex.getCircle().getStroke().equals(Color.ORANGERED))
+                            if (!vertex.getCircle().getStroke().equals(Color.ORANGERED) &&
+                                    !vertex.getCircle().getStroke().equals(Color.GREEN))
                                 vertex.getCircle().setStroke(Color.BLACK);
                         });
                         vertex.getCircle().setOnMouseDragged(circleOnMouseDraggedEventHandler);
@@ -449,8 +457,9 @@ public class MyControler implements Initializable {
                                     if (e1.getCode() == KeyCode.DELETE) {
                                         arc.getBegin().getArcs().remove(arc);
                                         arc.getEnd().getArcs().remove(arc);
-                                        pane.getChildren().removeAll(arc.getArrow());
-                                        pane.getChildren().remove(arc);
+                                        graph.removeArcFromMatrix(arc);
+                                        ((Pane) graph.getTab().getContent()).getChildren().removeAll(arc.getArrow());
+                                        ((Pane) graph.getTab().getContent()).getChildren().remove(arc);
                                     }
                                 });
                             });
@@ -663,6 +672,8 @@ public class MyControler implements Initializable {
                                         } catch (Exception exception) {
                                             exception.printStackTrace();
                                         }
+                                    } else if (e.getCode() == KeyCode.L) {
+                                        vertex.setLoop((Pane) graph.getTab().getContent());
                                     }
 
                                 });
@@ -822,7 +833,7 @@ public class MyControler implements Initializable {
                                     graph.addArc(arc);
                                     //  arc.updateUnorientedArrow();
 
-                                   
+
                                     this.arc = new Arc(x1, y1, x2, y2);
 
                                 }
@@ -919,15 +930,99 @@ public class MyControler implements Initializable {
 
 
 
+<<<<<<< HEAD
 
+=======
+                    Timeline timeline = new Timeline();
+                    timeline.setCycleCount(1);
+                    Duration duration = new Duration(1000);
+                    vertex.updatePower();
+                    KeyValue kvy = new KeyValue(vertex.getPower().yProperty(), vertex.getCircle().getCenterY() - 15);
+                    KeyFrame kfy = new KeyFrame(duration, kvy);
+                    timeline.getKeyFrames().add(kfy);
+                    timeline.play();
+                    timeline.setOnFinished(event -> {
+                        Timeline timeline1 = new Timeline();
+                        timeline1.setCycleCount(1);
+                        Duration duration1 = new Duration(5000);
+
+                        KeyFrame kfy1 = new KeyFrame(duration1);
+                        timeline1.getKeyFrames().add(kfy1);
+                        timeline1.play();
+                        timeline1.setOnFinished(eventt -> {
+                            Timeline timeline2 = new Timeline();
+                            timeline2.setCycleCount(1);
+                            Duration duration2 = new Duration(900);
+                            KeyValue kvy2 = new KeyValue(vertex.getPower().yProperty(), vertex.getCircle().getCenterY());
+                            KeyFrame kfy2 = new KeyFrame(duration2, kvy2);
+                            timeline2.getKeyFrames().add(kfy2);
+                            timeline2.play();
+                            timeline2.setOnFinished(even -> ((Pane) graph.getTab().getContent()).getChildren().remove(vertex.getPower()));
+                        });
+                    });
+                }
+            }
+        }
+    }
+>>>>>>> 0095d1614f59e0454a99b8e1e8ecb89a5d38d69a
 
     public void showGraphInfo(ActionEvent event) {
         for (Graph graph : graphs) {
             if (graph.getTab().isSelected()) {
                 graph.showInfo(stage);
+
             }
         }
+    }
 
+
+    public void showDistance(ActionEvent event) {
+        for (Button button : buttons) {
+            button.setDisable(false);
+        }
+        MyApplication.scene.setCursor(Cursor.DEFAULT);
+        for (Graph graph : graphs) {
+            if (graph.getTab().isSelected()) {
+                PathController pathController = new PathController();
+                graph.getVertices().forEach(vertex -> vertex.getCircle().setOnMousePressed(event1 -> {
+                    if (pathController.getVertexStart() == null) {
+                        pathController.setVertexStart(vertex);
+                        pathController.getVertexStart().getCircle().setStroke(Color.GREEN);
+
+                    } else {
+
+                        pathController.setVertexEnd(vertex);
+                        pathController.getVertexEnd().getCircle().setStroke(Color.GREEN);
+                    }
+
+                    if (pathController.getVertexStart() != null && pathController.getVertexEnd() != null) {
+                        pathController.setPath(graph.getVertices());
+                        pathController.dijkstra(graph.getMatrixAdjancy(), pathController.getVertexStart().getVertexId(), stage);
+                    }
+                }));
+            }
+        }
+    }
+
+    public void makePlanar(ActionEvent event) {
+        for (Graph graph : graphs) {
+            if (graph.getTab().isSelected()) {
+                PlanarityController planarityController = new PlanarityController(graph);
+                graph = planarityController.makePlanar(graph);
+
+            }
+
+        }
+    }
+
+    public void checkEuler(ActionEvent event) {
+        for (Graph graph : graphs) {
+            if (graph.getTab().isSelected()) {
+                graph.checkEuler(stage);
+
+            }
+
+        }
 
     }
 

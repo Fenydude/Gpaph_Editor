@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 
 import java.io.IOException;
@@ -23,7 +24,16 @@ public class Vertex extends Group implements Serializable {
     private List<Arc> arcs = new ArrayList<>();
     private final float CIRCLE_RADIUS = 10.0f;
     private double vertexTransX, vertexTransY;
+    private boolean visited = false;
+    private Polygon loop;
 
+    public boolean isVisited() {
+        return visited;
+    }
+
+    public void setVisited(boolean visited) {
+        this.visited = visited;
+    }
 
     public Vertex(double vertexTransX, double vertexTransY, Pane pane) {
         circle = new Circle();
@@ -128,4 +138,18 @@ public class Vertex extends Group implements Serializable {
         return power;
     }
 
+    public Polygon getLoop() {
+        return loop;
+    }
+
+    public void setLoop(Pane pane) {
+        loop = new Polygon();
+
+        javafx.scene.shape.Arc arc = new javafx.scene.shape.Arc();
+        arc.setCenterX(circle.getCenterX());
+        arc.setCenterY(circle.getCenterY());
+        arc.setRadiusX(500);
+        arc.setRadiusY(500);
+        pane.getChildren().add(arc);
+    }
 }
