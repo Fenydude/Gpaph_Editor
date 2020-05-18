@@ -18,14 +18,12 @@ import ch.makery.address.model.Vertex;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
-
-import javafx.animation.Transition;
-
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
+import javafx.collections.FXCollections;
+import javafx.collections.ObservableList;
 import javafx.event.ActionEvent;
 
-import javafx.event.Event;
 import javafx.event.EventHandler;
 
 import javafx.fxml.FXML;
@@ -60,7 +58,6 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-import static javafx.scene.input.KeyCode.D;
 import static javafx.scene.input.KeyCode.DELETE;
 import static javafx.scene.input.KeyCode.L;
 
@@ -74,6 +71,9 @@ public class MyControler implements Initializable {
     @FXML
     public MenuItem checkForEuler = new MenuItem();
     private Translate translate = new Translate();
+
+    private String color = "transparent";
+
 
     public int countCircle = 0;
 
@@ -100,7 +100,8 @@ public class MyControler implements Initializable {
 
     @FXML
     private MenuItem save;
-
+    @FXML
+    private MenuItem saveAs;
     @FXML
     private MenuItem open;
 
@@ -109,9 +110,6 @@ public class MyControler implements Initializable {
 
     private MenuItem showMultipleArcBut = new MenuItem();
 
-    @FXML
-
-    private MenuItem showPowerVert = new MenuItem();
 
     @FXML
 
@@ -127,7 +125,8 @@ public class MyControler implements Initializable {
 
     private Button transform = new Button();
 
-
+@FXML
+private Button newCir = new Button();
     @FXML
 
     private Button unorientedArc = new Button();
@@ -149,6 +148,10 @@ public class MyControler implements Initializable {
     public Button colorChange = new Button();
 
     @FXML
+
+    private MenuItem showPowerVert = new MenuItem();
+
+    @FXML
     public MenuItem showGraphInfo = new MenuItem();
 
     private List<Graph> graphs = new ArrayList<>();
@@ -159,6 +162,9 @@ public class MyControler implements Initializable {
     private List<Button> buttons = new ArrayList<>();
     private DoubleProperty fontSize = new SimpleDoubleProperty(10);
     private IntegerProperty blues = new SimpleIntegerProperty(50);
+
+
+    private ObservableList<Object> langs = FXCollections.observableArrayList(penCircle);
 
 
     private void setGraphName(Tab tab) {
@@ -182,52 +188,6 @@ public class MyControler implements Initializable {
         newWindow.show();
     }
 
-    public void showPowerVertAction(ActionEvent actionEvent) throws InterruptedException {
-        for (Graph graph : graphs) {
-            if (graph.getTab().isSelected()) {
-                for (Vertex vertex : graph.getVertices()) {
-
-                    fontSize.bind(pane.widthProperty().add(pane.heightProperty()).divide(50));
-                    vertex.getPower().styleProperty().bind(Bindings.concat("-fx-font-size: ", fontSize.asString(), ";"
-                            , "-fx-base: rgb(100,100,", blues.asString(), ");"));
-
-                    vertex.setPowerInPane((Pane) graph.getTab().getContent());
-                    vertex.getPower().setX(vertex.getCircle().getCenterX() - 4);
-                    vertex.getPower().setY(vertex.getCircle().getCenterY() + 4);
-
-                    Timeline timeline = new Timeline();
-                    timeline.setCycleCount(1);
-                    Duration duration = new Duration(1000);
-                    KeyValue kvy = new KeyValue(vertex.getPower().yProperty(), vertex.getCircle().getCenterY() - 15);
-                    KeyFrame kfy = new KeyFrame(duration, kvy);
-                    timeline.getKeyFrames().add(kfy);
-                    timeline.play();
-                    timeline.setOnFinished(event -> {
-                        Timeline timeline1 = new Timeline();
-                        timeline1.setCycleCount(1);
-                        Duration duration1 = new Duration(10000);
-
-                        KeyFrame kfy1 = new KeyFrame(duration1);
-                        timeline1.getKeyFrames().add(kfy1);
-                        timeline1.play();
-                        timeline1.setOnFinished(eventt -> {
-                            Timeline timeline2 = new Timeline();
-                            timeline2.setCycleCount(1);
-                            Duration duration2 = new Duration(900);
-                            KeyValue kvy2 = new KeyValue(vertex.getPower().yProperty(), vertex.getCircle().getCenterY());
-                            KeyFrame kfy2 = new KeyFrame(duration2, kvy2);
-                            timeline2.getKeyFrames().add(kfy2);
-                            timeline2.play();
-                            timeline2.setOnFinished(even -> pane.getChildren().remove(vertex.getPower()));
-                        });
-                    });
-
-
-                }
-            }
-        }
-    }
-
 
     @Override
 
@@ -238,7 +198,7 @@ public class MyControler implements Initializable {
         buttons.add(unorientedArc);
         buttons.add(penLine);
         buttons.add(loop);
-
+        buttons.add(newCir);
 
         pane = new Pane();
         setGraphName(tabPane.getTabs().get(0));
@@ -539,8 +499,6 @@ public class MyControler implements Initializable {
                         vertex.setVertexId(graph.getVertices().size() - 1);
                         vertex.getText().setX(vertex.getCircle().getCenterX() + 10);
                         vertex.getText().setY(vertex.getCircle().getCenterY() + 10);
-
-
                         graph.addVertex();
 
                         // panes.get(1).getChildren().add(circle);
@@ -550,6 +508,26 @@ public class MyControler implements Initializable {
                 }
 
 
+            }if(newCir.isDisable() && e.getX() < 550 && e.getY() < 400){
+                for (Graph graph : graphs) {
+                    if (graph.getTab().isSelected()) {
+
+
+                        Pane pane = (Pane) graph.getTab().getContent();
+                        Vertex vertex = new Vertex(e.getX(), e.getY(), pane);
+                        vertex.getCircle().setStyle("-fx-fill:linear-gradient( from 100.0% 100.0% to 100.0%  0.0%, rgb(77,102,204) 0.5," + color +" 0.5);");
+                        graph.getVertices().add(vertex);
+                        circleArray.add(vertex.getCircle());
+                        vertex.setTextInPane((Pane) graph.getTab().getContent());
+                        vertex.setVertexId(graph.getVertices().size() - 1);
+                        vertex.getText().setX(vertex.getCircle().getCenterX() + 10);
+                        vertex.getText().setY(vertex.getCircle().getCenterY() + 10);
+                        graph.addVertex();
+
+
+
+                    }
+                }
             }
         }
 
@@ -646,11 +624,6 @@ public class MyControler implements Initializable {
                                         button1.setOnAction(actionEvent -> {
 
                                             vertex.getText().setText(textField.getText());
-
-                                            vertex.getText().styleProperty().bind(Bindings.concat("-fx-font-size: ", fontSize.asString(), ";"
-                                                    , "-fx-base: rgb(100,100,", blues.asString(), ");"));
-
-
                                             newWindow.close();
 
                                         });
@@ -718,10 +691,6 @@ public class MyControler implements Initializable {
 
                                 vertex.getText().setX(vertex.getCircle().getCenterX() + 10);
                                 vertex.getText().setY(vertex.getCircle().getCenterY() + 10);
-
-
-
-
                                 vertex.updatePower();
                                 vertex.getPower().setX(vertex.getCircle().getCenterX() - 4);
                                 vertex.getPower().setY(vertex.getCircle().getCenterY() - 15);
@@ -803,9 +772,10 @@ public class MyControler implements Initializable {
 
                                 if (vertex.getCircle() == circle) {
 
+                                    vertex.addArc(arc);
 
                                     arc.setEnd(vertex);
-                                    vertex.addArc(arc);
+
                                     arc.setEndX(vertex.getCircle().getCenterX());
 
                                     arc.setEndY(vertex.getCircle().getCenterY());
@@ -837,7 +807,6 @@ public class MyControler implements Initializable {
                                     this.arc = new Arc(x1, y1, x2, y2);
 
                                 }
-                                vertex.updatePower();
 
                             }
 
@@ -916,9 +885,7 @@ public class MyControler implements Initializable {
                             }
 
                         }
-                        for (Vertex vertex : graph.getVertices()) {
-                            vertex.updatePower();
-                        }
+
 
                         arc.updateArrow();
                         graph.addArc(arc);
@@ -927,12 +894,19 @@ public class MyControler implements Initializable {
             };
 
 
+    public void showPowerVertAction(ActionEvent actionEvent) throws InterruptedException {
+        for (Graph graph : graphs) {
+            if (graph.getTab().isSelected()) {
+                for (Vertex vertex : graph.getVertices()) {
 
+                    fontSize.bind(pane.widthProperty().add(pane.heightProperty()).divide(50));
+                    vertex.getPower().styleProperty().bind(Bindings.concat("-fx-font-size: ", fontSize.asString(), ";"
+                            , "-fx-base: rgb(100,100,", blues.asString(), ");"));
 
+                    vertex.setPowerInPane((Pane) graph.getTab().getContent());
+                    vertex.getPower().setX(vertex.getCircle().getCenterX() - 4);
+                    vertex.getPower().setY(vertex.getCircle().getCenterY() + 4);
 
-<<<<<<< HEAD
-
-=======
                     Timeline timeline = new Timeline();
                     timeline.setCycleCount(1);
                     Duration duration = new Duration(1000);
@@ -964,7 +938,6 @@ public class MyControler implements Initializable {
             }
         }
     }
->>>>>>> 0095d1614f59e0454a99b8e1e8ecb89a5d38d69a
 
     public void showGraphInfo(ActionEvent event) {
         for (Graph graph : graphs) {
@@ -1027,14 +1000,27 @@ public class MyControler implements Initializable {
     }
 
 
-    public void eilerWay(ActionEvent actionEvent) {
-        for (Graph graph : graphs){
-            if(graph.getTab().isSelected()){
-              if(graph.checkForEulerPath()){
-                  System.out.println("Krasava");
-              }
 
-            }
+    public void newCirAction(ActionEvent actionEvent) {
+        MyApplication.scene.setCursor(Cursor.DEFAULT);
+
+        for (Button button : buttons) {
+            button.setDisable(button.getText().equals("cirrrr"));
+        }
+
+        for (Tab tab1 : tabPane.getTabs()) {
+
+            tab1.getContent().addEventFilter(MouseEvent.MOUSE_CLICKED, drawCircle);
+
+
+        }
+
+        for (Circle circle : circleArray) {
+
+            circle.setOnMousePressed(null);
+
+            circle.setOnMouseDragged(null);
+
         }
     }
 }

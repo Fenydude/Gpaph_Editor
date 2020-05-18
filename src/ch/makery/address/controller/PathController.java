@@ -3,7 +3,7 @@ package ch.makery.address.controller;
 import ch.makery.address.model.Arc;
 import ch.makery.address.model.Graph;
 import ch.makery.address.model.Vertex;
-import com.sun.prism.impl.VertexBuffer;
+
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.VBox;

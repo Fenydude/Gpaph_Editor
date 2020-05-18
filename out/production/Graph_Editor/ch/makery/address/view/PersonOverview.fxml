@@ -27,14 +27,11 @@
                         <MenuItem fx:id="showMultipleArcBut" mnemonicParsing="false" onAction="#showMultipleArc" text="ShowMultipleArc" />
                         <MenuItem fx:id="showPowerVert" mnemonicParsing="false" onAction="#showPowerVertAction" text="Show power vertex" />
                         <MenuItem fx:id="showGraphInfo" mnemonicParsing="false" onAction="#showGraphInfo" text="Show graph info" />
-<<<<<<< HEAD
-                        <MenuItem fx:id="eilerWay" mnemonicParsing="false" onAction="#eilerWay" text="eilerWay" />
 
-=======
+
                         <MenuItem fx:id="showDistance" mnemonicParsing="false" onAction="#showDistance" text="Show path" />
                         <MenuItem fx:id="makePlanar" mnemonicParsing="false" onAction="#makePlanar" text="Make planar" />
                         <MenuItem fx:id="checkForEuler" mnemonicParsing="false" onAction="#checkEuler" text="Euler check" />
->>>>>>> 0095d1614f59e0454a99b8e1e8ecb89a5d38d69a
                     </items>
                 </Menu>
                 <Menu mnemonicParsing="false" text="Help">
@@ -80,6 +77,6 @@
             <Tab fx:id="tab" text="New File" />
         </tabs>
     </TabPane>
+      <Button fx:id="newCir" layoutX="552.0" layoutY="236.0" mnemonicParsing="false" onAction="#newCirAction" prefHeight="36.0" prefWidth="36.0" text="cirrrr" />
 </children>
         </AnchorPane>
-

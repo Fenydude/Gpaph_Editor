@@ -1,12 +1,11 @@
 package ch.makery.address.model;
 
 
-<<<<<<< HEAD
 import javafx.event.ActionEvent;
-=======
+
 import ch.makery.address.controller.EulerCycle;
 import ch.makery.address.controller.PlanarityController;
->>>>>>> 0095d1614f59e0454a99b8e1e8ecb89a5d38d69a
+
 import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
@@ -108,22 +107,6 @@ public class Graph extends Group implements Serializable {
     }
 
 
-    public void showMatrix() {
-
-        for (ArrayList<Integer> integers : matrixAdjancy) {
-
-            for (Integer integer : integers) {
-
-                System.out.print(integer + " ");
-
-            }
-
-            System.out.println();
-
-        }
-
-        System.out.println();
-    }
 
     public void showMultipleArcs() {
 
@@ -188,6 +171,24 @@ public class Graph extends Group implements Serializable {
     }
 
 
+    public void showMatrix() {
+
+        for (ArrayList<Integer> integers : matrixAdjancy) {
+
+            for (Integer integer : integers) {
+
+                System.out.print(integer + " ");
+
+            }
+
+            System.out.println();
+
+        }
+
+        System.out.println();
+    }
+
+
     public List<Vertex> getVertices() {
         return vertices;
     }
@@ -196,7 +197,9 @@ public class Graph extends Group implements Serializable {
         this.vertices.add(vertex);
     }
 
+    public void showMultipleArc(ArrayList<Arc> arcs) {
 
+    }
 
     public void showInfo(Stage stage) {
         Label firstLabel = new Label("Vertices");
@@ -209,10 +212,6 @@ public class Graph extends Group implements Serializable {
             }
         }
         Label arcsInfo = new Label(String.valueOf(arcsNum / 2));
-<<<<<<< HEAD
-        VBox secondaryLayout = new VBox();
-        secondaryLayout.getChildren().addAll(firstLabel, verticesInfo, secondLabel, arcsInfo);
-=======
         Label isPlanarGraph = new Label();
         if (isPlanar()) {
             isPlanarGraph.setText("graph is planar suka");
@@ -221,7 +220,6 @@ public class Graph extends Group implements Serializable {
         }
         VBox secondaryLayout = new VBox();
         secondaryLayout.getChildren().addAll(firstLabel, verticesInfo, secondLabel, arcsInfo, isPlanarGraph);
->>>>>>> 0095d1614f59e0454a99b8e1e8ecb89a5d38d69a
         Scene secondScene = new Scene(secondaryLayout, 230, 100);
         Stage newWindow = new Stage();
         newWindow.setTitle("Enter name");
