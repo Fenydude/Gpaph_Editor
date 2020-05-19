@@ -5,7 +5,11 @@ import ch.makery.address.model.Graph;
 import ch.makery.address.model.Vertex;
 import ch.makery.address.util.ColorUtil;
 import ch.makery.address.util.DAT;
+import javafx.geometry.Insets;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.Background;
+import javafx.scene.layout.BackgroundFill;
+import javafx.scene.layout.CornerRadii;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.stage.FileChooser;
@@ -41,7 +45,7 @@ public class FileWorkController {
                     arc.isUnoriented()
             ));
         }
-        try (ObjectOutputStream ous = new ObjectOutputStream(new FileOutputStream(fileName + ".dat"))) {
+        try (ObjectOutputStream ous = new ObjectOutputStream(new FileOutputStream(fileName + ".shelt"))) {
             ous.writeObject(dBList1);//сохраняем объект с данными о Node
 
         }
@@ -81,13 +85,10 @@ public class FileWorkController {
                     arc.setBegin(vertex);
                 } else if (vertex.getCircle().getCenterX() == arc.getEndX() && vertex.getCircle().getCenterY() == arc.getEndY()) {
                     arc.setEnd(vertex);
-                    if (arc.isUnorientedArc()) {
-                        arc.setUnorientedArrow(root);
-                        arc.updateUnorientedArrow();
-                    } else {
+                    if (!arc.isUnoriented()) {
                         arc.setArrow(root);
                     }
-                    arc.updateArrow();
+                    arc.toBack();
                     vertex.addArc(arc);
                 }
             }
@@ -107,6 +108,7 @@ public class FileWorkController {
         });
         dragList2.removeIf(e -> e.getEnd() == null);
         dragList2.forEach(graph::addArc);
+        root.setBackground(new Background(new BackgroundFill(Color.SNOW, CornerRadii.EMPTY, new Insets(10, 10, 0, 10))));
 
         root.getChildren().removeAll(datList);
         root.getChildren().addAll(dragList1);

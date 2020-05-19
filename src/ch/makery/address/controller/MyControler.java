@@ -1,63 +1,38 @@
 package ch.makery.address.controller;
 
 
-import java.io.IOException;
-
-import java.net.URL;
-
-import java.util.*;
-import java.util.List;
-
-
 import ch.makery.address.model.Arc;
-
 import ch.makery.address.model.Graph;
-
 import ch.makery.address.model.Vertex;
-
+import ch.makery.address.util.Tutorials;
 import javafx.animation.KeyFrame;
 import javafx.animation.KeyValue;
 import javafx.animation.Timeline;
 import javafx.beans.binding.Bindings;
 import javafx.beans.property.*;
 import javafx.event.ActionEvent;
-
 import javafx.event.EventHandler;
-
 import javafx.fxml.FXML;
-
 import javafx.fxml.Initializable;
-
+import javafx.geometry.Insets;
 import javafx.scene.Cursor;
-
 import javafx.scene.Scene;
-
 import javafx.scene.control.*;
-
-import javafx.scene.control.Button;
-import javafx.scene.control.Label;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TextField;
-
-import javafx.scene.input.*;
-
-import javafx.scene.layout.Pane;
-
-import javafx.scene.layout.VBox;
-
+import javafx.scene.input.KeyCode;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-
 import javafx.scene.shape.Circle;
-
 import javafx.scene.transform.Translate;
-
 import javafx.stage.Modality;
-
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
+import java.io.IOException;
+import java.net.URL;
+import java.util.*;
+
 import static javafx.scene.input.KeyCode.DELETE;
-import static javafx.scene.input.KeyCode.L;
 
 
 public class MyControler implements Initializable {
@@ -68,10 +43,17 @@ public class MyControler implements Initializable {
     public MenuItem makePlanar = new MenuItem();
     @FXML
     public MenuItem checkForEuler = new MenuItem();
+    @FXML
+    public MenuItem tutorial = new MenuItem();
+    @FXML
+    public MenuItem clear = new MenuItem();
+    @FXML
+    public MenuItem findPaths = new MenuItem();
+    @FXML
+    public MenuItem findVertex = new MenuItem();
+    @FXML
+    public MenuItem content = new MenuItem();
     private Translate translate = new Translate();
-
-    public int countCircle = 0;
-
     private Graph graph;
     private Pane pane;
 
@@ -82,13 +64,6 @@ public class MyControler implements Initializable {
     private double x1, x2 = 0;
 
     private double y1, y2 = 0;
-
-
-    double orgSceneX, orgSceneY;
-
-    double orgTranslateX, orgTranslateY;
-
-
     @FXML
 
     private Button penCircle = new Button();
@@ -99,11 +74,6 @@ public class MyControler implements Initializable {
     private MenuItem saveAs;
     @FXML
     private MenuItem open;
-
-
-    @FXML
-
-    private MenuItem showMultipleArcBut = new MenuItem();
 
 
     @FXML
@@ -162,7 +132,7 @@ public class MyControler implements Initializable {
         Label secondLabel = new Label("Enter graph name");
         TextField textField = new TextField("Enter name");
         textField.setMinWidth(120);
-        Button button1 = new Button("Button with Text");
+        Button button1 = new Button("enter");
         VBox secondaryLayout = new VBox();
         secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
         Scene secondScene = new Scene(secondaryLayout, 230, 100);
@@ -194,6 +164,7 @@ public class MyControler implements Initializable {
         pane = new Pane();
         setGraphName(tabPane.getTabs().get(0));
         tabPane.getTabs().get(0).setContent(pane);
+        pane.setBackground(new Background(new BackgroundFill(Color.SNOW, CornerRadii.EMPTY, new Insets(10, 10, 0, 10))));
         graph = new Graph(tabPane.getTabs().get(0));
         graphs.add(graph);
         panes.add(pane);
@@ -213,7 +184,7 @@ public class MyControler implements Initializable {
         tabPane.getTabs().add(tab1);
 
         Pane pane = new Pane();
-
+        pane.setBackground(new Background(new BackgroundFill(Color.SNOW, CornerRadii.EMPTY, new Insets(10, 10, 0, 10))));
         graphs.add(new Graph(tab1));
         panes.add(pane);
         circleArray = new ArrayList<>();
@@ -221,7 +192,7 @@ public class MyControler implements Initializable {
 
     }
 
-    private FileWorkController fileWorkController = new FileWorkController();
+    private final FileWorkController fileWorkController = new FileWorkController();
 
     public void saveAction(ActionEvent actionEvent) {
         for (Graph graph : graphs) {
@@ -240,10 +211,6 @@ public class MyControler implements Initializable {
 
     }
 
-    public void saveAsAction(ActionEvent actionEvent) {
-
-    }
-
     public void openAction(ActionEvent actionEvent) {
         for (Graph graph : graphs) {
             if (graph.getTab().isSelected()) {
@@ -251,6 +218,11 @@ public class MyControler implements Initializable {
                     graph = fileWorkController.openNode(graph.getTab(), graph);
                     for (Vertex vertex : graph.getVertices()) {
                         circleArray.add(vertex.getCircle());
+                        for (Arc arc : vertex.getArcs()) {
+                            if (!arc.isUnoriented())
+                                arc.configureArrow();
+                            arc.toBack();
+                        }
                     }
                 } catch (IOException | ClassNotFoundException e) {
                     e.printStackTrace();
@@ -258,19 +230,6 @@ public class MyControler implements Initializable {
 
             }
         }
-    }
-
-
-    public void showMultipleArc(ActionEvent event) {
-
-        for (Graph graph : graphs) {
-            if (graph.getTab().isSelected()) {
-                //   graph.showMultipleArc();
-
-            }
-        }
-
-
     }
 
 
@@ -315,22 +274,6 @@ public class MyControler implements Initializable {
         }
     }
 
-    public void loop(ActionEvent event) {
-
-        for (Tab tab1 : tabPane.getTabs()) {
-            MyApplication.scene.setCursor(Cursor.CROSSHAIR);
-            for (Button button : buttons) {
-                button.setDisable(button.getText().equals("loop"));
-            }
-            for (Graph graph : graphs) {
-                if (graph.getTab().isSelected()) {
-                    tab1.getContent().addEventFilter(MouseEvent.MOUSE_RELEASED, new LoopCreate(graph, loop, pane));
-                }
-            }
-
-        }
-    }
-
     //Ивент нажатия кнопки
 
     public void penLineAction(ActionEvent event) {
@@ -364,81 +307,22 @@ public class MyControler implements Initializable {
 
     }
 
-
-    Runnable choosing = new Runnable() {
-
-        @Override
-
-        public void run() {
-
-            for (Graph graph : graphs) {
-                if (graph.getTab().isSelected()) {
-
-                    for (Vertex vertex : graph.getVertices()) {
-
-                        vertex.getCircle().setOnMousePressed(circleOnMousePressedEventHandler.get());
-                        vertex.getCircle().setOnMouseEntered(event -> {
-                            if (!vertex.getCircle().getStroke().equals(Color.ORANGERED) &&
-                                    !vertex.getCircle().getStroke().equals(Color.GREEN))
-                                vertex.getCircle().setStroke(Color.DARKORANGE);
-                        });
-                        vertex.getCircle().setOnMouseExited(event -> {
-                            if (!vertex.getCircle().getStroke().equals(Color.ORANGERED) &&
-                                    !vertex.getCircle().getStroke().equals(Color.GREEN))
-                                vertex.getCircle().setStroke(Color.BLACK);
-                        });
-                        vertex.getCircle().setOnMouseDragged(circleOnMouseDraggedEventHandler);
-
-                        for (Arc arc : vertex.getArcs()) {
-                            arc.setOnMouseDragged(transLine);
-                            arc.setOnMouseEntered(event -> {
-                                if (!arc.getStroke().equals(Color.ORANGERED))
-                                    arc.setColor(Color.DARKORANGE);
-                            });
-                            arc.setOnMousePressed(e -> {
-                                arc.setColor(Color.ORANGERED);
-                                graph.getVertices().forEach(vertex1 -> {
-                                    vertex1.getCircle().setStroke(Color.BLACK);
-                                    vertex1.getArcs().forEach(arc1 -> {
-                                        if (arc != arc1)
-                                            arc1.setColor(Color.BLACK);
-                                    });
-                                });
-                                arc.getScene().setOnKeyPressed(e1 -> {
-                                    if (e1.getCode() == KeyCode.DELETE) {
-                                        arc.getBegin().getArcs().remove(arc);
-                                        arc.getEnd().getArcs().remove(arc);
-                                        graph.removeArcFromMatrix(arc);
-                                        ((Pane) graph.getTab().getContent()).getChildren().removeAll(arc.getArrow());
-                                        ((Pane) graph.getTab().getContent()).getChildren().remove(arc);
-                                    }
-                                });
-                            });
-                            arc.setOnMouseExited(event -> {
-                                if (!arc.getStroke().equals(Color.ORANGERED))
-                                    arc.setColor(Color.BLACK);
-                            });
-                        }
-                    }
-                }
-            }
-        }
-    };
-
     public void transformAction(ActionEvent event) {
 
         MyApplication.scene.setCursor(Cursor.DEFAULT);
         for (Button button : buttons) {
             button.setDisable(button.getText().equals("Transform"));
         }
-        choosing.run();
+        ChoosingController choosingController = new ChoosingController(circleOnMousePressedEventHandler, graphs,
+                circleOnMouseDraggedEventHandler, transLine);
+        choosingController.run();
     }
 
 
     public void unorientedArcAction(ActionEvent actionEvent) {
         MyApplication.scene.setCursor(Cursor.CROSSHAIR);
         for (Button button : buttons) {
-            button.setDisable(button.getText().equals("BiArc"));
+            button.setDisable(button.getText().equals("UnArc"));
         }
 
 
@@ -459,16 +343,6 @@ public class MyControler implements Initializable {
 
     }
 
-
-    EventHandler<MouseEvent> trans = new EventHandler<MouseEvent>() {
-
-        @Override
-        public void handle(MouseEvent mouseEvent) {
-            Dragboard db = circleArray.get(0).startDragAndDrop(TransferMode.ANY);
-        }
-    };
-
-
     //Ивент рисования круга
     EventHandler<MouseEvent> drawCircle = new EventHandler<MouseEvent>() {
 
@@ -477,7 +351,7 @@ public class MyControler implements Initializable {
         public void handle(MouseEvent e) {
 
 
-            if (penCircle.isDisable() && e.getX() < 550 && e.getY() < 400) {
+            if (penCircle.isDisable() && e.getX() < 950 && e.getY() < 600) {
                 for (Graph graph : graphs) {
                     if (graph.getTab().isSelected()) {
 
@@ -537,7 +411,21 @@ public class MyControler implements Initializable {
                                 pane.getChildren().remove(colorPicker);
                                 vertex.getCircle().setStroke(Color.BLACK);
                             });
+
                         });
+                        if (vertex.getLoop() != null)
+                            vertex.getLoop().setOnMouseReleased(e -> {
+                                vertex.getLoop().setStroke(Color.ORANGERED);
+                                final ColorPicker colorPicker = new ColorPicker();
+                                colorPicker.setValue(Color.RED);
+                                Pane pane = (Pane) graph.getTab().getContent();
+                                pane.getChildren().add(colorPicker);
+                                colorPicker.setOnAction(event11 -> {
+                                    vertex.getLoop().setStroke(colorPicker.getValue());
+                                    pane.getChildren().remove(colorPicker);
+                                    vertex.getCircle().setStroke(Color.BLACK);
+                                });
+                            });
                     }
                 }
             }
@@ -574,7 +462,7 @@ public class MyControler implements Initializable {
                                         Label secondLabel = new Label("Enter name vertex");
                                         TextField textField = new TextField("Enter name");
                                         textField.setMinWidth(120);
-                                        Button button1 = new Button("Button with Text");
+                                        Button button1 = new Button("enter");
                                         VBox secondaryLayout = new VBox();
                                         secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
                                         Scene secondScene = new Scene(secondaryLayout, 230, 100);
@@ -618,6 +506,7 @@ public class MyControler implements Initializable {
                                         }
                                     } else if (e.getCode() == KeyCode.L) {
                                         vertex.setLoop((Pane) graph.getTab().getContent());
+                                        graph.getMatrixAdjancy().get(vertex.getVertexId()).set(vertex.getVertexId(), 1);
                                     }
 
                                 });
@@ -683,7 +572,7 @@ public class MyControler implements Initializable {
 
                                         }
 
-                                        arc.updateArrow();
+                                        arc.configureArrow();
 
                                     }
 
@@ -754,10 +643,12 @@ public class MyControler implements Initializable {
                                     Pane pane = (Pane) graph.getTab().getContent();
                                     pane.getChildren().add(arc);
                                     if (penLine.isDisable()) {
+                                        arc.setUnoriented(false);
                                         arc.setArrow(pane);
+                                        arc.configureArrow();
                                     } else if (unorientedArc.isDisable()) {
-                                        arc.setUnorientedArrow(pane);
-                                        arc.updateUnorientedArrow();
+                                        arc.setUnoriented(true);
+
                                     }
 
 
@@ -770,10 +661,9 @@ public class MyControler implements Initializable {
                                     y1 = 0;
 
                                     y2 = 0;
-                                    arc.updateArrow();
                                     graph.addArc(arc);
                                     //  arc.updateUnorientedArrow();
-
+                                    arc.toBack();
 
                                     this.arc = new Arc(x1, y1, x2, y2);
 
@@ -858,7 +748,7 @@ public class MyControler implements Initializable {
                         }
 
 
-                        arc.updateArrow();
+                        arc.configureArrow();
                         graph.addArc(arc);
                     }
                 }
@@ -968,5 +858,113 @@ public class MyControler implements Initializable {
 
         }
 
+    }
+
+    public void tutorialAction(ActionEvent event) {
+        new Tutorials(stage);
+
+    }
+
+    public void clearAction(ActionEvent event) {
+        for (Graph graph : graphs) {
+            if (graph.getTab().isSelected()) {
+                for (Vertex vertex : graph.getVertices()) {
+                    vertex.getArcs().clear();
+                }
+                graph.getVertices().clear();
+                graph.getMatrixAdjancy().clear();
+                ((Pane) graph.getTab().getContent()).getChildren().clear();
+            }
+
+        }
+
+    }
+
+    public void pathFinding(ActionEvent event) {
+        MyApplication.scene.setCursor(Cursor.DEFAULT);
+        for (Graph graph : graphs) {
+            if (graph.getTab().isSelected()) {
+                PathController pathController = new PathController();
+                graph.getVertices().forEach(vertex -> vertex.getCircle().setOnMousePressed(event1 -> {
+                    if (pathController.getVertexStart() == null) {
+                        pathController.setVertexStart(vertex);
+                        pathController.getVertexStart().getCircle().setStroke(Color.GREEN);
+
+                    } else {
+
+                        pathController.setVertexEnd(vertex);
+                        pathController.getVertexEnd().getCircle().setStroke(Color.GREEN);
+                    }
+
+                    if (pathController.getVertexStart() != null && pathController.getVertexEnd() != null) {
+                        // pathController.getPath(pathController.getVertexStart());
+                        pathController.setPath(graph.getVertices());
+                        pathController.setGraph(graph);
+                        pathController.dijkstra(graph.getMatrixAdjancy(), pathController.getVertexStart().getVertexId(), stage);
+                        pathController.printAllPaths(pathController.getVertexStart().getVertexId(), pathController.getVertexEnd().getVertexId());
+                    }
+
+                }));
+            }
+        }
+    }
+
+    public void findVertex(ActionEvent event) {
+        for (Graph graph : graphs) {
+            if (graph.getTab().isSelected()) {
+                Label secondLabel = new Label("");
+                TextField textField = new TextField("Enter data");
+                textField.setMinWidth(120);
+                Button button1 = new Button("enter");
+                VBox secondaryLayout = new VBox();
+                secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
+                Scene secondScene = new Scene(secondaryLayout, 230, 100);
+                Stage newWindow = new Stage();
+                newWindow.setTitle("Enter content");
+                newWindow.setScene(secondScene);
+                newWindow.initModality(Modality.WINDOW_MODAL);
+                newWindow.initOwner(stage);
+                button1.setOnAction(actionEvent -> {
+                    for (Vertex vertex : graph.getVertices()) {
+                        if (vertex.getContent().equals(textField.getText())) {
+                            vertex.getCircle().setStroke(Color.BLUE);
+                        }
+                    }
+                    newWindow.close();
+
+                });
+                newWindow.show();
+            }
+        }
+
+    }
+
+    public void addContent(ActionEvent actionEvent) {
+        for (Graph graph : graphs) {
+            if (graph.getTab().isSelected()) {
+                Label secondLabel = new Label("");
+                TextField textField = new TextField("Enter data");
+                textField.setMinWidth(120);
+                Button button1 = new Button("enter");
+                VBox secondaryLayout = new VBox();
+                secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
+                Scene secondScene = new Scene(secondaryLayout, 230, 100);
+                Stage newWindow = new Stage();
+                newWindow.setTitle("Enter content");
+                newWindow.setScene(secondScene);
+                newWindow.initModality(Modality.WINDOW_MODAL);
+                newWindow.initOwner(stage);
+                button1.setOnAction(actionEvent1 -> {
+                    for (Vertex vertex : graph.getVertices()) {
+                        if (vertex.getCircle().getStroke().equals(Color.ORANGERED)) {
+                            vertex.setContent(textField.getText());
+                        }
+                    }
+                    newWindow.close();
+
+                });
+                newWindow.show();
+            }
+        }
     }
 }

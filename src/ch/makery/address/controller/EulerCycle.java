@@ -10,38 +10,11 @@ import java.util.Vector;
 public class EulerCycle {
 
 
-    public boolean euler(Vertex vertex) {
-        for (Arc arc : vertex.getArcs()) {
-            if (vertex == arc.getBegin()) {
-                if (!arc.isVisited()) {
-                    arc.setVisited(true);
-                    System.out.print(vertex.getVertexId() + "  -> " + "  ");
-                    euler(arc.getEnd());
-
-                } else {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
-
-    public  void DFS(ArrayList<ArrayList<Integer>> adjMatrix, boolean[] visited, int n, int i) {
-        System.out.print(" ->  " + (i + 1));
-        visited[i] = true;
-        for (int j = 0; j < n; j++) {
-            if (!(visited[j]) && adjMatrix.get(i).get(j) == 1) {
-                DFS(adjMatrix, visited, n, j);
-            }
-
-        }
-    }
-
-   public ArrayList<Integer> findEiler(int vertex, ArrayList<Integer> path, ArrayList<ArrayList<Integer>> matrix){
-       path.add(vertex);
-        for(int i = 0; i < matrix.size(); i++){
-            if(matrix.get(vertex).get(i) == 1){
-                matrix.get(vertex).set(i,0);
+    public ArrayList<Integer> findEiler(int vertex, ArrayList<Integer> path, ArrayList<ArrayList<Integer>> matrix) {
+        path.add(vertex);
+        for (int i = 0; i < matrix.size(); i++) {
+            if (matrix.get(vertex).get(i) == 1) {
+                matrix.get(vertex).set(i, 0);
 
                 findEiler(i, path, matrix);
             }
@@ -49,21 +22,6 @@ public class EulerCycle {
         return path;
     }
 
-
-
-    public boolean hamiltonovCycle(Vertex vertex) {
-        for (Arc arc : vertex.getArcs()) {
-            if (vertex == arc.getBegin()) {
-                if (!vertex.isVisited()) {
-                    vertex.setVisited(true);
-                    hamiltonovCycle(arc.getEnd());
-                } else {
-                    return false;
-                }
-            }
-        }
-        return true;
-    }
 
     public boolean checkForEiler(ArrayList<ArrayList<Integer>> matrix) {
         int size = matrix.size();

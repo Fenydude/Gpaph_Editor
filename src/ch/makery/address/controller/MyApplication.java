@@ -33,8 +33,8 @@ public class MyApplication extends Application {
             MyControler.stage = primaryStage;
             primaryStage.setTitle("My Application");
             primaryStage.setScene(scene);
-            primaryStage.show();
-
+            primaryStage.show();;
+            System.out.println("");
 
         } catch (Exception e) {
             e.printStackTrace();
