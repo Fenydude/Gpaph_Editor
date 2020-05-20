@@ -5,6 +5,7 @@ import javafx.scene.Group;
 import javafx.scene.layout.Pane;
 import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
+import javafx.scene.shape.CubicCurve;
 import javafx.scene.shape.Polygon;
 import javafx.scene.text.Text;
 
@@ -14,6 +15,8 @@ import java.io.ObjectOutputStream;
 import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
+
+import static com.sun.javafx.sg.prism.NGCanvas.LINE_WIDTH;
 
 public class Vertex extends Group implements Serializable {
     private Circle circle;
@@ -25,7 +28,8 @@ public class Vertex extends Group implements Serializable {
     private final float CIRCLE_RADIUS = 10.0f;
     private double vertexTransX, vertexTransY;
     private boolean visited = false;
-    private Polygon loop;
+    private CubicCurve loop;
+    private String content = "";
 
     public boolean isVisited() {
         return visited;
@@ -53,6 +57,13 @@ public class Vertex extends Group implements Serializable {
 
     }
 
+    public String getContent() {
+        return content;
+    }
+
+    public void setContent(String content) {
+        this.content = content;
+    }
 
 
 
@@ -138,18 +149,29 @@ public class Vertex extends Group implements Serializable {
         return power;
     }
 
-    public Polygon getLoop() {
-        return loop;
+
+    public void removeLoop() {
+        loop = null;
     }
 
     public void setLoop(Pane pane) {
-        loop = new Polygon();
+        loop = new CubicCurve();
+        loop.setStrokeWidth(2);
+        loop.setFill(Color.TRANSPARENT);
+        loop.setStroke(Color.BLACK);
+        int LOOP_RADIUS = 50;
+        loop.startXProperty().bind(getCircle().centerXProperty());
+        loop.startYProperty().bind(getCircle().centerYProperty());
+        loop.endXProperty().bind(getCircle().centerXProperty());
+        loop.endYProperty().bind(getCircle().centerYProperty());
+        loop.controlX1Property().bind(getCircle().centerXProperty().add(-LOOP_RADIUS));
+        loop.controlY1Property().bind(getCircle().centerYProperty().add(-LOOP_RADIUS));
+        loop.controlX2Property().bind(getCircle().centerXProperty().add(-LOOP_RADIUS));
+        loop.controlY2Property().bind(getCircle().centerYProperty().add(LOOP_RADIUS));
+        pane.getChildren().add(loop);
+    }
 
-        javafx.scene.shape.Arc arc = new javafx.scene.shape.Arc();
-        arc.setCenterX(circle.getCenterX());
-        arc.setCenterY(circle.getCenterY());
-        arc.setRadiusX(500);
-        arc.setRadiusY(500);
-        pane.getChildren().add(arc);
+    public CubicCurve getLoop() {
+        return loop;
     }
 }

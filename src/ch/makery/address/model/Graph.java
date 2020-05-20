@@ -214,15 +214,19 @@ public class Graph extends Group implements Serializable {
         Label arcsInfo = new Label(String.valueOf(arcsNum / 2));
         Label isPlanarGraph = new Label();
         if (isPlanar()) {
-            isPlanarGraph.setText("graph is planar suka");
+            isPlanarGraph.setText("graph is planar ");
         } else {
-            isPlanarGraph.setText("no blyat");
+            isPlanarGraph.setText("not planar");
         }
         VBox secondaryLayout = new VBox();
         secondaryLayout.getChildren().addAll(firstLabel, verticesInfo, secondLabel, arcsInfo, isPlanarGraph);
+        for (int i = 0; i <matrixAdjancy.get(0).size() ; i++) {
+            secondaryLayout.getChildren().add(new Label(matrixAdjancy.get(i).toString()));
+        }
+
         Scene secondScene = new Scene(secondaryLayout, 230, 100);
         Stage newWindow = new Stage();
-        newWindow.setTitle("Enter name");
+        newWindow.setTitle("graph info");
         newWindow.setScene(secondScene);
         newWindow.initModality(Modality.WINDOW_MODAL);
         newWindow.initOwner(stage);
@@ -269,7 +273,7 @@ public class Graph extends Group implements Serializable {
         secondaryLayout.getChildren().addAll(firstLabel);
         Scene secondScene = new Scene(secondaryLayout, 230, 100);
         Stage newWindow = new Stage();
-        newWindow.setTitle("Enter name");
+        newWindow.setTitle("euler");
         newWindow.setScene(secondScene);
         newWindow.initModality(Modality.WINDOW_MODAL);
         newWindow.initOwner(stage);

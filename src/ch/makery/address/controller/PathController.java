@@ -2,6 +2,7 @@ package ch.makery.address.controller;
 
 import ch.makery.address.model.Arc;
 import ch.makery.address.model.Graph;
+import ch.makery.address.model.Node;
 import ch.makery.address.model.Vertex;
 
 import javafx.scene.Scene;
@@ -12,6 +13,8 @@ import javafx.stage.Modality;
 import javafx.stage.Stage;
 
 import java.util.*;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class PathController {
 
@@ -19,50 +22,111 @@ public class PathController {
     private Vertex vertexEnd;
     private final List<Arc> arcs = new ArrayList<>();
     private List<Vertex> path = new ArrayList<>();
+    private Graph graph;
 
-     public void getPath(Vertex vertexStart) {
-         for (Arc arc : vertexStart.getArcs()) {
-             if (arc.getBegin() == vertexStart) {
-                 vertexStart.getCircle().setStroke(Color.GREEN);
-                 arcs.add(arc);
-                 arc.setColor(Color.GREEN);
-                 path.add(vertexStart);
-                 if (arc.getEnd() == vertexEnd) {
-                     arc.getEnd().getCircle().setStroke(Color.GREEN);
-                     return;
-                 }
-                 getPath(arc.getEnd());
-             }
-         }
-
-     }
+    public void setGraph(Graph graph) {
+        this.graph = graph;
+    }
 
 
+    private LinkedList<Node>[] convert(ArrayList<ArrayList<Integer>> matrixAdjancy) {
+        LinkedList<Node>[] adjList = new LinkedList[path.size()];
+        for (int i = 0; i < path.size(); i++) {
+            adjList[i] = new LinkedList<>();
+        }
+        for (int i = 0; i < matrixAdjancy.get(0).size(); i++) {
+            for (int j = 0; j < matrixAdjancy.get(0).size(); j++) {
+                if (matrixAdjancy.get(i).get(j) == 1) {
+                    adjList[i].addLast(new Node(i, j));
+                }
+            }
+        }
 
-     public void pathColor(Vertex vertex) {
+        return adjList;
+    }
 
-         for (Arc arc : vertex.getArcs()) {
-             if (arc.getStroke().equals(Color.GREEN)) {
-                 if (vertex.getCircle().getStroke().equals(Color.BLACK)) {
-                     if (vertex != vertexStart && vertex != vertexEnd) {
-                         arc.setColor(Color.BLACK);
-                         arc.getBegin().getCircle().setStroke(Color.BLACK);
-                         arc.getEnd().getCircle().setStroke(Color.BLACK);
-                         pathColor(arc.getBegin());
-                     }
-                 } else if (vertex == vertexEnd || vertex == vertexStart) {
-                     if (arc.getBegin() == vertexStart) {
-                         arc.getEnd().getCircle().setStroke(Color.BLACK);
-                         pathColor(arc.getEnd());
+    List<Integer> shortest = new ArrayList<>();
 
-                     } else {
-                         arc.getEnd().getCircle().setStroke(Color.BLACK);
-                         pathColor(arc.getBegin());
-                     }
-                 }
-             }
-         }
-     }
+    private void pathsFind(int start, int end, String path, boolean[] visited) {
+
+        String newPath = path + "->" + start;
+        visited[start] = true;
+        List<Integer> indexes = new ArrayList<>();
+        LinkedList<Node> list = convert(graph.getMatrixAdjancy())[start];
+
+        for (Node node : list) {
+
+            if (node.getDestination() != end && !visited[node.getDestination()]) {
+                pathsFind(node.getDestination(), end, newPath, visited);
+
+            } else if (node.getDestination() == end) {
+                Pattern p = Pattern.compile("-?\\d+");
+                Matcher m = p.matcher(newPath);
+                while (m.find()) {
+                    System.out.println(m.group());
+                    if (graph.getVertices().get(Integer.parseInt(m.group())).getCircle().getStroke() != Color.MAROON)
+                        graph.getVertices().get(Integer.parseInt(m.group())).getCircle().setStroke(Color.BLUE);
+                    indexes.add(Integer.parseInt(m.group()));
+
+                }
+                System.out.println(newPath + "->" + node.getDestination());
+                indexes.add(node.getDestination());
+
+                Vertex vertex1 = null;
+                Vertex vertex2 = null;
+
+                for (int i = 0; i < indexes.size() - 1; i++) {
+                    for (Vertex vertex : graph.getVertices()) {
+                        if (vertex.getVertexId() == indexes.get(i))
+                            vertex1 = vertex;
+
+                    }
+                    for (Vertex vertex : graph.getVertices()) {
+                        if (vertex.getVertexId() == indexes.get(i + 1))
+                            vertex2 = vertex;
+
+                    }
+                    assert vertex1 != null;
+                    if (indexes.size() == shortestPath + 1) {
+                        for (Arc arc : vertex1.getArcs()) {
+                            if (arc.getBegin() == vertex1 && arc.getEnd() == vertex2) {
+
+                              /*  graph.getVertices().get(vertexStart.getVertexId()).getCircle().setStroke(Color.MAROON);
+                                graph.getVertices().get(vertexEnd.getVertexId()).getCircle().setStroke(Color.MAROON);
+                                */
+                                arc.setColor(Color.MAROON);
+                                arc.getEnd().getCircle().setStroke(Color.MAROON);
+                                arc.getBegin().getCircle().setStroke(Color.MAROON);
+                            }
+                        }
+                        shortest.clear();
+                    } else
+                        for (Arc arc : vertex1.getArcs()) {
+                            if (arc.getBegin() == vertex1 && arc.getEnd() == vertex2 && arc.getStroke() != Color.MAROON) {
+                                arc.setColor(Color.BLUE);
+                            }
+                        }
+                }
+
+
+            }
+
+        }
+        visited[start] = false;
+        visited[start] = false;
+        // coloring();
+    }
+
+
+    public void printAllPaths(int start, int end) {
+
+        boolean[] visited = new boolean[path.size()];
+
+        visited[start] = true;
+
+        pathsFind(start, end, "", visited);
+
+    }
 
     public void setPath(List<Vertex> path) {
         this.path = path;
@@ -96,11 +160,14 @@ public class PathController {
         return min_index;
     }
 
+    int shortestPath = Integer.MAX_VALUE;
+
     private void printSolution(ArrayList<Integer> dist, int n, Stage stage) {
         System.out.println("Vertex   Distance from Source");
         String distance;
         if (dist.get(vertexEnd.getVertexId()) != Integer.MAX_VALUE) {
             distance = String.valueOf(dist.get(vertexEnd.getVertexId()));
+            shortestPath = dist.get(vertexEnd.getVertexId());
         } else {
             distance = "no way";
         }
@@ -109,7 +176,7 @@ public class PathController {
         secondaryLayout.getChildren().addAll(firstLabel);
         Scene secondScene = new Scene(secondaryLayout, 230, 100);
         Stage newWindow = new Stage();
-        newWindow.setTitle("Enter name");
+        newWindow.setTitle("distance");
         newWindow.setScene(secondScene);
         newWindow.initModality(Modality.WINDOW_MODAL);
         newWindow.initOwner(stage);
@@ -132,7 +199,6 @@ public class PathController {
             sptSet[u] = true;
 
             for (int v = 0; v < path.size(); v++)
-
                 if (!sptSet[v] && graph.get(u).get(v) != 0 &&
                         dist.get(u) != Integer.MAX_VALUE && dist.get(u) + graph.get(u).get(v) < dist.get(v))
                     dist.set(v, dist.get(u) + graph.get(u).get(v));
@@ -141,7 +207,5 @@ public class PathController {
     }
 
 
-
-
-
 }
+

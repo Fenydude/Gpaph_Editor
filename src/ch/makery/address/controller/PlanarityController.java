@@ -49,26 +49,6 @@ public class PlanarityController {
         return true;
     }
 
-    /*
-     *      Util
-     */
-
-    /*private Graph undirectedEquivalentOf(Graph graph) {
-        Graph undirectedGraph = new Graph();
-
-        undirectedGraph.getNodes().addAll(graph.getNodes());
-
-        for (Arc arc : graph.getArcs()) {
-            undirectedGraph.getArcs().add(arc);
-
-            if (arc.isDirected()) {
-                undirectedGraph.getArcs().add(new Arc(arc.getEnd(), arc.getBegin()));
-            }
-        }
-
-        return undirectedGraph;
-    }*/
-
     private List<Vertex> permute() {
         List<Vertex> permutation = new ArrayList<>();
 
