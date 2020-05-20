@@ -632,6 +632,7 @@ private Button newCir = new Button();
                                         Pane pane = (Pane) graph.getTab().getContent();
                                         try {
                                             circleArray.remove(vertex.getCircle());
+                                            vertex.getText().setText("");
                                             pane.getChildren().remove(vertex.getCircle());
                                             pane.getChildren().removeAll(vertex.getArcs());
                                             if (!vertex.getArcs().isEmpty()) {
@@ -702,13 +703,13 @@ private Button newCir = new Button();
 
                                             arc.setStartX(circle.getCenterX());
 
-                                            arc.setStartY(circle.getCenterY());
+                                            arc.setStartY(circle.getCenterY() );
 
                                         } else if (arc.getEnd().getCircle() == vertex.getCircle()) {
 
-                                            arc.setEndX(circle.getCenterX());
+                                            arc.setEndX(circle.getCenterX() - 10);
 
-                                            arc.setEndY(circle.getCenterY());
+                                            arc.setEndY(circle.getCenterY()- 10);
 
                                         }
 

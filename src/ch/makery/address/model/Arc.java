@@ -169,7 +169,7 @@ private boolean isVisited = false;
 
                     line1.setStartX(ex + dx - oy);
                     line1.setStartY(ey + dy + ox);
-                    line2.setStartX(ex + dx + oy);
+                    line2.setStartX(ex + dx + oy );
                     line2.setStartY(ey + dy - ox);
                 }
             };
