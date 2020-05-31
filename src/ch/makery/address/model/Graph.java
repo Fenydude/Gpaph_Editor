@@ -10,6 +10,7 @@ import javafx.scene.Group;
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.control.Tab;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -110,13 +111,16 @@ public class Graph extends Group implements Serializable {
 
     public void showMultipleArcs() {
 
-        for (Vertex vertex : vertices){
-            for (int i = 0; i< vertex.getArcs().size(); i++){
-                for (int j = 1; j<vertex.getArcs().size(); j++){
+        for (int first = 0; first < vertices.size(); first ++){
+
+
+            for (int i = 0; i< vertices.get(first).getArcs().size(); i++){
+
+                for (int j = 1; j<vertices.get(first).getArcs().size(); j++){
                     if(i != j ){
-                        if ( vertex.getArcs().get(i).getEnd().getVertexId() == vertex.getArcs().get(j).getEnd().getVertexId() || vertex.getArcs().get(i).getEnd().getVertexId() == vertex.getArcs().get(j).getBegin().getVertexId()) {
-                            vertex.getArcs().get(i).setColor(Color.BLUE);
-                            vertex.getArcs().get(j).setColor(Color.BLUE);
+                        if (vertices.get(first).getArcs().get(i).getEnd().getVertexId() == vertices.get(first).getArcs().get(j).getEnd().getVertexId() && vertices.get(first).getArcs().get(i).getBegin().getVertexId() == vertices.get(first).getArcs().get(j).getBegin().getVertexId() ) {
+                            vertices.get(first).getArcs().get(i).setColor(Color.PURPLE);
+                            vertices.get(first).getArcs().get(j).setColor(Color.PURPLE);
                         }
                     }
                 }
@@ -202,9 +206,9 @@ public class Graph extends Group implements Serializable {
     }
 
     public void showInfo(Stage stage) {
-        Label firstLabel = new Label("Vertices");
+        Label firstLabel = new Label("Колличество вершин в графе");
         Label verticesInfo = new Label(String.valueOf(getVertices().size()));
-        Label secondLabel = new Label("Arcs");
+        Label secondLabel = new Label("Колличество дуг в граффе");
         int arcsNum = 0;
         for (Vertex vertex : vertices) {
             for (Arc arc : vertex.getArcs()) {
@@ -212,26 +216,28 @@ public class Graph extends Group implements Serializable {
             }
         }
         Label arcsInfo = new Label(String.valueOf(arcsNum / 2));
-        Label isPlanarGraph = new Label();
-        if (isPlanar()) {
-            isPlanarGraph.setText("graph is planar ");
-        } else {
-            isPlanarGraph.setText("not planar");
-        }
+        Label isPlanarGraph = new Label("Граф является связным");
+
         VBox secondaryLayout = new VBox();
         secondaryLayout.getChildren().addAll(firstLabel, verticesInfo, secondLabel, arcsInfo, isPlanarGraph);
         for (int i = 0; i <matrixAdjancy.get(0).size() ; i++) {
             secondaryLayout.getChildren().add(new Label(matrixAdjancy.get(i).toString()));
         }
+        Pane ppane = new Pane(secondaryLayout);
+        ppane.setStyle(" -fx-background-color: #1d1d1d");
 
-        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+        Scene secondScene = new Scene(ppane, 230, 100);
+
         Stage newWindow = new Stage();
-        newWindow.setTitle("graph info");
+        newWindow.setTitle("Информация о графе");
         newWindow.setScene(secondScene);
+
         newWindow.initModality(Modality.WINDOW_MODAL);
         newWindow.initOwner(stage);
         newWindow.setX(stage.getX() + 100);
         newWindow.setY(stage.getY() + 100);
+        secondScene.getStylesheets().add(getClass().getResource("graph.css").toExternalForm());
+        secondLabel.getStyleClass().add("label");
         newWindow.show();
     }
 
@@ -265,17 +271,21 @@ public class Graph extends Group implements Serializable {
                 }
             }
         } else {
-            path.append("no euler cycle");
+            path.append("Эйлерова цикла нет");
         }
         Label firstLabel = new Label(path.toString());
 
         VBox secondaryLayout = new VBox();
         secondaryLayout.getChildren().addAll(firstLabel);
-        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+        Pane ppane = new Pane(secondaryLayout);
+        ppane.setStyle(" -fx-background-color: #1d1d1d");
+        Scene secondScene = new Scene(ppane, 230, 100);
         Stage newWindow = new Stage();
-        newWindow.setTitle("euler");
+        newWindow.setTitle("Эйлеров цикл");
         newWindow.setScene(secondScene);
-        newWindow.initModality(Modality.WINDOW_MODAL);
+        secondScene.getStylesheets().add(getClass().getResource("graph.css").toExternalForm());
+        firstLabel.getStyleClass().add("label");
+        newWindow.initModality(Modality.NONE);
         newWindow.initOwner(stage);
         newWindow.setX(stage.getX() + 100);
         newWindow.setY(stage.getY() + 100);

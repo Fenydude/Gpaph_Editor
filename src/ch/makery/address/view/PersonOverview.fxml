@@ -6,82 +6,84 @@
 <?import javafx.scene.control.MenuItem?>
 <?import javafx.scene.control.Tab?>
 <?import javafx.scene.control.TabPane?>
+<?import javafx.scene.control.ToolBar?>
 <?import javafx.scene.layout.AnchorPane?>
+<?import javafx.scene.layout.Pane?>
 <?import javafx.scene.text.Font?>
 
-<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="700.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.makery.address.controller.MyControler">
+<AnchorPane maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="491.0" prefWidth="614.0" xmlns="http://javafx.com/javafx/11.0.1" xmlns:fx="http://javafx.com/fxml/1" fx:controller="ch.makery.address.controller.MyControler">
     <children>
-        <MenuBar layoutY="1.0">
+        <MenuBar fx:id="menubar" layoutX="-1.0" layoutY="-1.0" style="-fx-padding: 0.0em 0.333333em 0.0em 0.333333em; -fx-border-style: solid; -fx-background-color: #c2c2c2; -fx-border-width: 0.5px;">
             <menus>
-                <Menu mnemonicParsing="false" text="File">
+                <Menu fx:id="menu" mnemonicParsing="false" style="-fx-background-color: transparent; -fx-padding: 0.666666em 0.999999em 0.4999995em 0.999999em;" text="Работа с файлом">
                     <items>
-                        <MenuItem fx:id="newPane" mnemonicParsing="false" onAction="#newPaneAction" text="New Graph" />
-                        <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveAction" text="Save" />
-                        <MenuItem fx:id="open" mnemonicParsing="false" onAction="#openAction" text="Open" />
-                        <MenuItem fx:id="clear" mnemonicParsing="false" onAction="#clearAction" text="clear" />
-                        <MenuItem mnemonicParsing="false" text="Close" />
+                        <MenuItem fx:id="newPane" mnemonicParsing="false" onAction="#newPaneAction" style="-fx-padding: 0em 0.5em 0em 0em; -fx-text-fill: #212121; -fx-font-family: &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; -fx-font-size: 11pt; -fx-background-color: transparent;" text="Создать новое окно" />
+                        <MenuItem fx:id="save" mnemonicParsing="false" onAction="#saveAction" style="-fx-padding: 0em 0.5em 0em 0em; -fx-text-fill: #212121; -fx-font-family: &quot;Segoe UI&quot;, Helvetica, Arial, sans-serif; -fx-font-size: 11pt; -fx-focus-background: -fx-accent; -fx-focus-background-color: #dedede;" text="Сохранить" />
+                        <MenuItem fx:id="open" mnemonicParsing="false" onAction="#openAction" text="Открыть" />
+                        <MenuItem fx:id="clear" mnemonicParsing="false" onAction="#clearAction" text="Очистить экран" />
+
                     </items>
                 </Menu>
-                <Menu mnemonicParsing="false" text="Edit">
+                <Menu mnemonicParsing="false" style="-fx-background-color: transparent; -fx-padding: 0.666666em 0.999999em 0.4999995em 0.999999em;" text="Работа с графом">
                     <items>
-                        <MenuItem fx:id="showPowerVert" mnemonicParsing="false" onAction="#showPowerVertAction" text="Show power vertex" />
-                        <MenuItem fx:id="showGraphInfo" mnemonicParsing="false" onAction="#showGraphInfo" text="Show graph info" />
+                        <MenuItem fx:id="showPowerVert" mnemonicParsing="false" onAction="#showPowerVertAction" text="Показать мощность вершин" />
+                        <MenuItem fx:id="showGraphInfo" mnemonicParsing="false" onAction="#showGraphInfo" text="Показать информацию о графе" />
 
 
-                        <MenuItem fx:id="showDistance" mnemonicParsing="false" onAction="#showDistance" text="Distance" />
-                        <MenuItem fx:id="makePlanar" mnemonicParsing="false" onAction="#makePlanar" text="Make planar" />
-                        <MenuItem fx:id="checkForEuler" mnemonicParsing="false" onAction="#checkEuler" text="Euler check" />
-                        <MenuItem fx:id="findPaths" mnemonicParsing="false" onAction="#pathFinding" text="find path" />
-                        <MenuItem fx:id="findVertex" mnemonicParsing="false" onAction="#findVertex" text="find vertex" />
-                        <MenuItem fx:id="content" mnemonicParsing="false" onAction="#addContent" text="add content" />
-                    </items>
-                </Menu>
-                <Menu mnemonicParsing="false" text="Help">
-                    <items>
-                        <MenuItem mnemonicParsing="false" text="About" />
-                        <MenuItem fx:id="tutorial" mnemonicParsing="false" onAction="#tutorialAction" text="Tutorial" />
+                        <MenuItem fx:id="showDistance" mnemonicParsing="false" onAction="#showDistance" text="Найти расстояние между вершинами" />
+                        <MenuItem fx:id="makePlanar" mnemonicParsing="false" onAction="#showMultipleArc" text="Показать кратные дуги" />
+                        <MenuItem fx:id="checkForEuler" mnemonicParsing="false" onAction="#checkEuler" text="Найти Эйлеров цикл" />
+                        <MenuItem fx:id="findPaths" mnemonicParsing="false" onAction="#pathFinding" text="Нахождение всех путей в графе" />
+
                     </items>
                 </Menu>
             </menus>
         </MenuBar>
-        <Button fx:id="transform" layoutX="952.0" layoutY="166.0" mnemonicParsing="false" onAction="#transformAction" prefHeight="36.0" prefWidth="36.0" text="Transform">
-            <font>
-                <Font size="7.0" />
-            </font>
-        </Button>
-        <Button fx:id="penLine" layoutX="952.0" layoutY="94.0" mnemonicParsing="false" onAction="#penLineAction" prefHeight="36.0" prefWidth="36.0" text="Arc" AnchorPane.topAnchor="94.0">
-            <font>
-                <Font size="7.0" />
-            </font>
-        </Button>
-        <Button fx:id="penCircle" layoutX="952.0" layoutY="58.0" mnemonicParsing="false" onAction="#penCircleAction" prefHeight="36.0" prefWidth="36.0" text="Circle">
-            <font>
-                <Font size="7.0" />
-            </font>
-        </Button>
-        <Button fx:id="unorientedArc" layoutX="952.0" layoutY="130.0" mnemonicParsing="false" onAction="#unorientedArcAction" prefHeight="36.0" prefWidth="36.0" text="UnArc">
-            <font>
-                <Font size="7.0" />
-            </font>
-        </Button>
-        <Button fx:id="colorChange" layoutX="952.0" layoutY="200.0" mnemonicParsing="false" onAction="#colorChange" prefHeight="36.0" prefWidth="36.0" text="color">
-            <font>
-                <Font size="7.0" />
-            </font>
-        </Button>
-
-    <Button fx:id="loop" layoutX="552.0" layoutY="290.0" mnemonicParsing="false" onAction="#loop" prefHeight="36.0" prefWidth="36.0" text="loop">
-        <font>
-            <Font size="7.0" />
-        </font>
-    </Button>
-    <TabPane fx:id="tabPane" layoutY="27.0" prefHeight="374.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="0.0" AnchorPane.topAnchor="27.0">
+      <Pane layoutX="-5.0" layoutY="35.0" prefHeight="374.0" prefWidth="554.0" style="-fx-background-color: white;" />
+    <TabPane fx:id="tabPane" layoutX="-2.0" layoutY="33.0" prefHeight="374.0" prefWidth="552.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.leftAnchor="-2.0" AnchorPane.topAnchor="33.0">
         <tabs>
             <Tab fx:id="tab" text="New File" />
         </tabs>
     </TabPane>
-      <Button fx:id="newCir" layoutX="552.0" layoutY="236.0" mnemonicParsing="false" onAction="#newCirAction" prefHeight="36.0" prefWidth="36.0" text="cirrrr" />
+      <ToolBar fx:id="toolb" layoutX="552.0" layoutY="272.0" prefHeight="42.0" prefWidth="58.0">
+         <items>
+              <Button fx:id="penCircle" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#penCircleAction" prefHeight="30.0" prefWidth="30.0" text="c">
+                  <font>
+                      <Font size="1.0" />
+                  </font>
+              </Button>
+            <Button fx:id="newCir" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#newCirAction" prefHeight="30.0" prefWidth="30.0" />
+         </items>
+      </ToolBar>
+      <ToolBar layoutX="552.0" layoutY="356.0" prefHeight="42.0" prefWidth="58.0">
+         <items>
+              <Button fx:id="colorChange" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#colorChange" prefHeight="30.0" prefWidth="30.0" text="l">
+                  <font>
+                      <Font size="1.0" />
+                  </font>
+              </Button>
+              <Button fx:id="transform" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#transformAction" prefHeight="30.0" prefWidth="30.0" text="t">
+                  <font>
+                      <Font size="1.0" />
+                  </font>
+              </Button>
+         </items>
+      </ToolBar>
+      <ToolBar layoutX="552.0" layoutY="314.0" prefHeight="41.0" prefWidth="58.0">
+         <items>
+              <Button fx:id="penLine" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#penLineAction" prefHeight="30.0" prefWidth="30.0" text="a">
+                  <font>
+                      <Font size="1.0" />
+                  </font>
+              </Button>
+              <Button fx:id="unorientedArc" maxHeight="30.0" maxWidth="30.0" minHeight="30.0" minWidth="30.0" mnemonicParsing="false" onAction="#unorientedArcAction" prefHeight="30.0" prefWidth="30.0" text="b">
+                  <font>
+                      <Font size="1.0" />
+                  </font>
+              </Button>
+         </items>
+      </ToolBar>
+
+        
 </children>
         </AnchorPane>
-
-

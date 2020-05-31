@@ -45,7 +45,7 @@ public class FileWorkController {
                     arc.isUnoriented()
             ));
         }
-        try (ObjectOutputStream ous = new ObjectOutputStream(new FileOutputStream(fileName + ".shelt"))) {
+        try (ObjectOutputStream ous = new ObjectOutputStream(new FileOutputStream(fileName + ".graph"))) {
             ous.writeObject(dBList1);//сохраняем объект с данными о Node
 
         }

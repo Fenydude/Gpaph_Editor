@@ -7,6 +7,7 @@ import ch.makery.address.model.Vertex;
 
 import javafx.scene.Scene;
 import javafx.scene.control.Label;
+import javafx.scene.layout.Pane;
 import javafx.scene.layout.VBox;
 import javafx.scene.paint.Color;
 import javafx.stage.Modality;
@@ -171,15 +172,19 @@ public class PathController {
         } else {
             distance = "no way";
         }
-        Label firstLabel = new Label("distance between this nodes is " + distance);
+        Label firstLabel = new Label("Расстояние между узлами: " + distance);
         VBox secondaryLayout = new VBox();
         secondaryLayout.getChildren().addAll(firstLabel);
-        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+        Pane ppane = new Pane(secondaryLayout);
+        ppane.setStyle(" -fx-background-color: #1d1d1d");
+        Scene secondScene = new Scene(ppane, 230, 100);
         Stage newWindow = new Stage();
         newWindow.setTitle("distance");
         newWindow.setScene(secondScene);
         newWindow.initModality(Modality.WINDOW_MODAL);
         newWindow.initOwner(stage);
+        secondScene.getStylesheets().add(getClass().getResource("jm.css").toExternalForm());
+        firstLabel.getStyleClass().add("label");
         newWindow.setX(stage.getX() + 100);
         newWindow.setY(stage.getY() + 100);
         newWindow.show();

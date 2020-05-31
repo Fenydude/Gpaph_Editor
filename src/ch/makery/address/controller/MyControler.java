@@ -20,6 +20,8 @@ import javafx.geometry.Insets;
 import javafx.scene.Cursor;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.*;
@@ -77,10 +79,10 @@ public class MyControler implements Initializable {
 
     private Button penCircle = new Button();
 
+
     @FXML
     private MenuItem save;
-    @FXML
-    private MenuItem saveAs;
+
     @FXML
     private MenuItem open;
 
@@ -105,9 +107,12 @@ private Button newCir = new Button();
 
     private Button unorientedArc = new Button();
 
+@FXML
+private Menu menu = new Menu();
 
     @FXML
-
+    private  MenuBar menuBar = new MenuBar();
+    @FXML
     private TabPane tabPane = new TabPane();
 
     @FXML
@@ -142,18 +147,25 @@ private Button newCir = new Button();
 
 
     private void setGraphName(Tab tab) {
-        Label secondLabel = new Label("Enter graph name");
-        TextField textField = new TextField("Enter name");
+        Label secondLabel = new Label("Ввдите имя графа");
+        TextField textField = new TextField("Введите имя графа");
         textField.setMinWidth(120);
-        Button button1 = new Button("enter");
+        Button button1 = new Button("Выполнить");
         VBox secondaryLayout = new VBox();
         secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
-        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+
+        Pane ppane = new Pane(secondaryLayout);
+        ppane.setStyle(" -fx-background-color: #1d1d1d");
+        Scene secondScene = new Scene(ppane, 230, 100);
+
         Stage newWindow = new Stage();
-        newWindow.setTitle("Enter name");
+        newWindow.setTitle("Введите имя графа");
         newWindow.setScene(secondScene);
         newWindow.initModality(Modality.WINDOW_MODAL);
         newWindow.initOwner(stage);
+        secondScene.getStylesheets().add(getClass().getResource("jm.css").toExternalForm());
+        button1.getStyleClass().add("button");
+        secondLabel.getStyleClass().add("label");
         button1.setOnAction(actionEvent -> {
             tab.setText(textField.getText());
             newWindow.close();
@@ -161,6 +173,16 @@ private Button newCir = new Button();
         });
         newWindow.show();
     }
+
+    Image imagecirc = new Image(getClass().getResourceAsStream("circ.png"));
+    Image imagenewcirc = new Image(getClass().getResourceAsStream("circ181.png"));
+    Image imagenearrow = new Image(getClass().getResourceAsStream("arrow.png"));
+    Image imageneline = new Image(getClass().getResourceAsStream("line.png"));
+    Image imagenedrag = new Image(getClass().getResourceAsStream("drag.png"));
+    Image imagenefill = new Image(getClass().getResourceAsStream("fill.png"));
+
+    @FXML
+    private ToolBar toolb = new ToolBar();
 
 
     @Override
@@ -174,6 +196,15 @@ private Button newCir = new Button();
         buttons.add(loop);
         buttons.add(newCir);
 
+        penCircle.graphicProperty().setValue(new ImageView(imagecirc));
+        newCir.graphicProperty().setValue(new ImageView(imagenewcirc));
+        penLine.graphicProperty().setValue(new ImageView(imagenearrow));
+        unorientedArc.graphicProperty().setValue(new ImageView(imageneline));
+        transform.graphicProperty().setValue(new ImageView(imagenedrag));
+        colorChange.graphicProperty().setValue(new ImageView(imagenefill));
+
+        //toolb.getStyleClass().add("bbb");
+        //tab.getStyleClass().add("bbb");
         pane = new Pane();
         setGraphName(tabPane.getTabs().get(0));
         tabPane.getTabs().get(0).setContent(pane);
@@ -188,6 +219,7 @@ private Button newCir = new Button();
 
     public void newPaneAction(ActionEvent event) {
         Tab tab1 = new Tab();
+        //tab1.getStyleClass().add("bbb");
         setGraphName(tab1);
 
         Label label = new Label("This is newTab ");
@@ -268,7 +300,7 @@ private Button newCir = new Button();
         MyApplication.scene.setCursor(Cursor.DEFAULT);
 
         for (Button button : buttons) {
-            button.setDisable(button.getText().equals("Circle"));
+            button.setDisable(button.getText().equals("c"));
         }
 
         for (Tab tab1 : tabPane.getTabs()) {
@@ -294,7 +326,7 @@ private Button newCir = new Button();
         for (Tab tab1 : tabPane.getTabs()) {
             MyApplication.scene.setCursor(Cursor.DEFAULT);
             for (Button button : buttons) {
-                button.setDisable(button.getText().equals("color"));
+                button.setDisable(button.getText().equals("l"));
             }
             tab1.getContent().addEventFilter(MouseEvent.MOUSE_RELEASED, arcAndCircleColorChange);
 
@@ -309,7 +341,7 @@ private Button newCir = new Button();
         MyApplication.scene.setCursor(Cursor.CROSSHAIR);
 
         for (Button button : buttons) {
-            button.setDisable(button.getText().equals("Arc"));
+            button.setDisable(button.getText().equals("a"));
         }
 
         for (Circle circle : circleArray) {
@@ -339,7 +371,7 @@ private Button newCir = new Button();
 
         MyApplication.scene.setCursor(Cursor.DEFAULT);
         for (Button button : buttons) {
-            button.setDisable(button.getText().equals("Transform"));
+            button.setDisable(button.getText().equals("t"));
         }
         ChoosingController choosingController = new ChoosingController(circleOnMousePressedEventHandler, graphs,
                 circleOnMouseDraggedEventHandler, transLine);
@@ -350,7 +382,7 @@ private Button newCir = new Button();
     public void unorientedArcAction(ActionEvent actionEvent) {
         MyApplication.scene.setCursor(Cursor.CROSSHAIR);
         for (Button button : buttons) {
-            button.setDisable(button.getText().equals("UnArc"));
+            button.setDisable(button.getText().equals("b"));
         }
 
 
@@ -408,7 +440,7 @@ private Button newCir = new Button();
 
                         Pane pane = (Pane) graph.getTab().getContent();
                         Vertex vertex = new Vertex(e.getX(), e.getY(), pane);
-                        vertex.getCircle().setStyle("-fx-fill:linear-gradient( from 100.0% 100.0% to 100.0%  0.0%, rgb(77,102,204) 0.5," + color +" 0.5);");
+                        vertex.getCircle().setStyle("-fx-fill:linear-gradient( from 100.0% 100.0% to 0.0%  100.0%, BLACK 0.5," + color +" 0.5);");
                         graph.getVertices().add(vertex);
                         circleArray.add(vertex.getCircle());
                         vertex.setTextInPane((Pane) graph.getTab().getContent());
@@ -507,17 +539,25 @@ private Button newCir = new Button();
                                 vertex.getCircle().setStroke(Color.ORANGERED);
                                 vertex.getCircle().getScene().setOnKeyPressed(e -> {
                                     if (e.getCode() == KeyCode.I) {
-                                        Label secondLabel = new Label("Enter name vertex");
-                                        TextField textField = new TextField("Enter name");
+                                        Label secondLabel = new Label("Введите название вершины");
+                                        TextField textField = new TextField("Название вершины");
                                         textField.setMinWidth(120);
-                                        Button button1 = new Button("enter");
+                                        Button button1 = new Button("Выполнить");
                                         VBox secondaryLayout = new VBox();
                                         secondaryLayout.getChildren().addAll(secondLabel, textField, button1);
-                                        Scene secondScene = new Scene(secondaryLayout, 230, 100);
+                                        Pane ppane = new Pane(secondaryLayout);
+                                        ppane.setStyle(" -fx-background-color: #1d1d1d");
+                                        Scene secondScene = new Scene(ppane, 230, 100);
                                         // New window (Stage)
                                         Stage newWindow = new Stage();
-                                        newWindow.setTitle("Enter name");
+                                        newWindow.setTitle("Введите название вершины");
                                         newWindow.setScene(secondScene);
+
+                                        secondScene.getStylesheets().add(getClass().getResource("jm.css").toExternalForm());
+                                        button1.getStyleClass().add("button");
+                                        secondLabel.getStyleClass().add("label");
+
+
                                         // Specifies the modality for new window.
                                         newWindow.initModality(Modality.WINDOW_MODAL);
                                         // Specifies the owner Window (parent) for new window
@@ -615,9 +655,9 @@ private Button newCir = new Button();
 
                                         } else if (arc.getEnd().getCircle() == vertex.getCircle()) {
 
-                                            arc.setEndX(circle.getCenterX() - 10);
+                                            arc.setEndX(circle.getCenterX());
 
-                                            arc.setEndY(circle.getCenterY()- 10);
+                                            arc.setEndY(circle.getCenterY());
 
                                         }
 
@@ -916,7 +956,7 @@ private Button newCir = new Button();
         MyApplication.scene.setCursor(Cursor.DEFAULT);
 
         for (Button button : buttons) {
-            button.setDisable(button.getText().equals("cirrrr"));
+            button.setDisable(button.getText().equals(""));
         }
 
         for (Tab tab1 : tabPane.getTabs()) {

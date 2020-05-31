@@ -1,56 +1,69 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
+  <component name="BranchesTreeState">
+    <expand>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="LOCAL_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+      <path>
+        <item name="ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="REMOTE_ROOT" type="e8cecc67:BranchNodeDescriptor" />
+        <item name="GROUP_NODE:origin" type="e8cecc67:BranchNodeDescriptor" />
+      </path>
+    </expand>
+    <select />
+  </component>
   <component name="ChangeListManager">
     <list default="true" id="2d20411b-c12f-493a-aa65-6098a78f7111" name="Default Changelist" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/New File.shelt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/new Graph.shelt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/ChoosingController.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Node.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/util/HyperlinkDemo$1.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/util/HyperlinkDemo.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/util/Tutorials.class" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/save test.shelt" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ch/makery/address/controller/ChoosingController.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ch/makery/address/model/Node.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ch/makery/address/util/HyperlinkDemo.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/src/ch/makery/address/util/Tutorials.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/.idea/libraries/lib1.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/compiler.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/misc.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/New File.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/PathGraph.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/graph for Checking.dat" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/k5.dat" beforeDir="false" afterPath="$PROJECT_DIR$/k5.shelt" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/META-INF/Graph_Editor.kotlin_module" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/EulerCycle.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/EulerCycle.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/FileWorkController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/FileWorkController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/LoopCreate.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/LoopCreate.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyApplication.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyApplication.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$3.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$3.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$4.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$4.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$5.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$5.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$6.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$6.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$7.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$7.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/PathController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/PathController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/PlanarityController.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/PlanarityController.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Arc$1.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Arc$1.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Arc$2.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Arc$2.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Arc.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Arc.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Graph.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Graph.class" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Vertex.class" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Vertex.class" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/Graph_Editor.iml" beforeDir="false" afterPath="$PROJECT_DIR$/Graph_Editor.iml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/New File.shelt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/k5.shelt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/new Graph.shelt" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/ArcController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/ChoosingController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/EulerCycle.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/FileWorkController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/LoopCreate.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyApplication.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$3.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$4.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$5.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$6.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler$7.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/MyControler.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/PathController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/controller/PlanarityController.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Arc$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Arc$2.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Arc.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Graph.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Node.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/model/Vertex.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/util/ColorUtil.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/util/DAT.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/util/HyperlinkDemo$1.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/util/HyperlinkDemo.class" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/util/Tutorials.class" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/view/PersonOverview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/out/production/Graph_Editor/ch/makery/address/view/PersonOverview.fxml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/makery/address/controller/EulerCycle.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/makery/address/controller/EulerCycle.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/save test.shelt" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/makery/address/controller/FileWorkController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/makery/address/controller/FileWorkController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/makery/address/controller/LoopCreate.java" beforeDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/makery/address/controller/MyApplication.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/makery/address/controller/MyApplication.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/makery/address/controller/MyControler.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/makery/address/controller/MyControler.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/makery/address/controller/PathController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/makery/address/controller/PathController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/makery/address/controller/PlanarityController.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/makery/address/controller/PlanarityController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/makery/address/model/Arc.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/makery/address/model/Arc.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/makery/address/model/Graph.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/makery/address/model/Graph.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/src/ch/makery/address/model/Vertex.java" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/makery/address/model/Vertex.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/src/ch/makery/address/view/PersonOverview.fxml" beforeDir="false" afterPath="$PROJECT_DIR$/src/ch/makery/address/view/PersonOverview.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
@@ -61,30 +74,147 @@
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/src/ch/makery/address/view/PersonOverview.fxml" root0="SKIP_INSPECTION" />
+  </component>
+  <component name="ProjectId" id="1cFrowhvk7cSQuT3DaL9m46Gdev" />
   <component name="ProjectLevelVcsManager">
     <ConfirmationsSetting value="2" id="Add" />
   </component>
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
   <component name="PropertiesComponent">
+    <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="SHARE_PROJECT_CONFIGURATION_FILES" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../Gpaph_Editor-Shteins" />
-    <property name="project.structure.last.edited" value="SDKs" />
-    <property name="project.structure.proportion" value="0.0" />
+    <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="aspect.path.notification.shown" value="true" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="project.structure.last.edited" value="Modules" />
+    <property name="project.structure.proportion" value="0.15" />
     <property name="project.structure.side.proportion" value="0.2" />
+    <property name="settings.editor.selected.configurable" value="reference.projectsettings.compiler.javacompiler" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\JavaProgect\Graph_Editor\src\ch\makery\address\model" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\JavaProgect\Graph_Editor\src\ch\makery\address\controller" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration name="MyApplication" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
+      <option name="MAIN_CLASS_NAME" value="ch.makery.address.controller.MyApplication" />
+      <module name="Graph_Editor" />
+      <option name="VM_PARAMETERS" value="--module-path=&quot;PATH_TO_FX&quot; --add-modules=javafx.controls,javafx.fxml" />
+      <extension name="coverage">
+        <pattern>
+          <option name="PATTERN" value="ch.makery.address.controller.*" />
+          <option name="ENABLED" value="true" />
+        </pattern>
+      </extension>
+      <method v="2">
+        <option name="Make" enabled="true" />
+      </method>
+    </configuration>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Application.MyApplication" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SvnConfiguration">
     <configuration />
   </component>
   <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="2d20411b-c12f-493a-aa65-6098a78f7111" name="Default Changelist" comment="" />
+      <created>1590135361589</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1590135361589</updated>
+      <workItem from="1590135365914" duration="3153000" />
+      <workItem from="1590225444400" duration="97000" />
+      <workItem from="1590401048137" duration="3324000" />
+      <workItem from="1590412797685" duration="5238000" />
+      <workItem from="1590477457101" duration="7274000" />
+      <workItem from="1590493290032" duration="606000" />
+      <workItem from="1590527361225" duration="231000" />
+      <workItem from="1590527609340" duration="166000" />
+      <workItem from="1590527888892" duration="637000" />
+      <workItem from="1590528820258" duration="1298000" />
+      <workItem from="1590572828337" duration="414000" />
+      <workItem from="1590916582135" duration="6190000" />
+    </task>
     <servers />
   </component>
+  <component name="TypeScriptGeneratedFilesManager">
+    <option name="version" value="2" />
+  </component>
+  <component name="Vcs.Log.Tabs.Properties">
+    <option name="TAB_STATES">
+      <map>
+        <entry key="MAIN">
+          <value>
+            <State />
+          </value>
+        </entry>
+      </map>
+    </option>
+  </component>
   <component name="WindowStateProjectService">
-    <state x="549" y="165" key="FileChooserDialogImpl" timestamp="1589964284605">
-      <screen x="0" y="0" width="1536" height="821" />
+    <state x="225" y="68" key="#com.intellij.execution.impl.EditConfigurationsDialog" timestamp="1590920132944">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
-    <state x="549" y="165" key="FileChooserDialogImpl/0.0.1536.821@0.0.1536.821" timestamp="1589964284605" />
-    <state x="249" y="0" key="SettingsEditor" timestamp="1589964428620">
-      <screen x="0" y="0" width="1536" height="821" />
+    <state x="225" y="68" key="#com.intellij.execution.impl.EditConfigurationsDialog/0.0.1536.824@0.0.1536.824" timestamp="1590920132944" />
+    <state x="550" y="118" key="#com.intellij.ide.macro.MacrosDialog" timestamp="1590917557857">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="550" y="118" key="#com.intellij.ide.macro.MacrosDialog/0.0.1536.824@0.0.1536.824" timestamp="1590917557857" />
+    <state x="549" y="166" key="FileChooserDialogImpl" timestamp="1590923529066">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="549" y="165" key="FileChooserDialogImpl/0.0.1536.821@0.0.1536.821" timestamp="1590490730871" />
+    <state x="549" y="166" key="FileChooserDialogImpl/0.0.1536.824@0.0.1536.824" timestamp="1590923529066" />
+    <state width="1493" height="218" key="GridCell.Tab.0.bottom" timestamp="1590923229174">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="177" key="GridCell.Tab.0.bottom/0.0.1536.821@0.0.1536.821" timestamp="1590491348492" />
+    <state width="1493" height="218" key="GridCell.Tab.0.bottom/0.0.1536.824@0.0.1536.824" timestamp="1590923229174" />
+    <state width="1493" height="218" key="GridCell.Tab.0.center" timestamp="1590923229173">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="177" key="GridCell.Tab.0.center/0.0.1536.821@0.0.1536.821" timestamp="1590491348492" />
+    <state width="1493" height="218" key="GridCell.Tab.0.center/0.0.1536.824@0.0.1536.824" timestamp="1590923229173" />
+    <state width="1493" height="218" key="GridCell.Tab.0.left" timestamp="1590923229173">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="177" key="GridCell.Tab.0.left/0.0.1536.821@0.0.1536.821" timestamp="1590491348492" />
+    <state width="1493" height="218" key="GridCell.Tab.0.left/0.0.1536.824@0.0.1536.824" timestamp="1590923229173" />
+    <state width="1493" height="218" key="GridCell.Tab.0.right" timestamp="1590923229174">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state width="1493" height="177" key="GridCell.Tab.0.right/0.0.1536.821@0.0.1536.821" timestamp="1590491348492" />
+    <state width="1493" height="218" key="GridCell.Tab.0.right/0.0.1536.824@0.0.1536.824" timestamp="1590923229174" />
+    <state x="249" y="0" key="SettingsEditor" timestamp="1590923572166">
+      <screen x="0" y="0" width="1536" height="824" />
     </state>
     <state x="249" y="0" key="SettingsEditor/0.0.1536.821@0.0.1536.821" timestamp="1589964428620" />
+    <state x="249" y="0" key="SettingsEditor/0.0.1536.824@0.0.1536.824" timestamp="1590923572166" />
+    <state x="465" y="234" key="com.intellij.ide.util.TipDialog" timestamp="1590477458469">
+      <screen x="0" y="0" width="1536" height="821" />
+    </state>
+    <state x="465" y="234" key="com.intellij.ide.util.TipDialog/0.0.1536.821@0.0.1536.821" timestamp="1590477458469" />
+    <state x="203" y="33" key="new project wizard" timestamp="1590917707459">
+      <screen x="0" y="0" width="1536" height="824" />
+    </state>
+    <state x="203" y="33" key="new project wizard/0.0.1536.824@0.0.1536.824" timestamp="1590917707459" />
+    <state x="431" y="142" width="672" height="678" key="search.everywhere.popup" timestamp="1590427603342">
+      <screen x="0" y="0" width="1536" height="821" />
+    </state>
+    <state x="431" y="142" width="672" height="678" key="search.everywhere.popup/0.0.1536.821@0.0.1536.821" timestamp="1590427603342" />
   </component>
 </project>
